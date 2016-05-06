@@ -145,7 +145,7 @@ rule "Item loaned by someone else status Lost"
   when
   $p : OlePatronDocument()
   $i : OleItemRecordForCirc($dr: getOleDeliverRequestBo(), $dr == null,$s: getItemStatusRecord(),null != $s, $s.getCode() in ("LOANED"))
-  $l: OleLoanDocument($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId().equals($p.getOlePatronId()),$ds: getLoanDueDate(), $ds.after(day()))
+  $l: OleLoanDocument($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId().equals($p.getOlePatronId()))
   $d : DroolsResponse()
 
   then

@@ -597,6 +597,11 @@ public abstract class CheckoutBaseController extends CircUtilController {
         Timestamp missingPieceItemDate = itemRecord.getMissingPieceEffectiveDate();
         parameterValues.put("missingPieceItemDate",missingPieceItemDate == null ? missingPieceItemDate : convertToString(missingPieceItemDate));
         parameterValues.put("itemMissingPieceItemRecords",prepareMissingPieceHistoryRecords(itemRecord));
+        parameterValues.put("itemClaimsReturnedFlag", itemRecord.getClaimsReturnedFlag());
+        parameterValues.put("claimsReturnNote", itemRecord.getClaimsReturnedNote());
+        Timestamp claimsReturnItemDate = itemRecord.getClaimsReturnedFlagCreateDate();
+        parameterValues.put("ClaimsReturnedDate", null == claimsReturnItemDate ? claimsReturnItemDate : convertToString(claimsReturnItemDate));
+        parameterValues.put("itemClaimsReturnedRecords",prepareClaimsReturnHistoryRecords(itemRecord));
         return parameterValues;
     }
 
@@ -620,6 +625,25 @@ public abstract class CheckoutBaseController extends CircUtilController {
             itemMissingPieceRecordList.add(missingPieceItemRecord);
         }
         return itemMissingPieceRecordList;
+    }
+
+    private List<ItemClaimsReturnedRecord> prepareClaimsReturnHistoryRecords(ItemRecord itemRecord) {
+        List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord> claimsReturnedRecordList = itemRecord.getItemClaimsReturnedRecords();
+        List<ItemClaimsReturnedRecord> itemClaimsReturnedRecordList = new ArrayList<>();
+        for (Iterator<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord> iterator = claimsReturnedRecordList.iterator(); iterator.hasNext(); ) {
+            org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord itemClaimsReturnedRecord = iterator.next();
+            ItemClaimsReturnedRecord claimsReturnedRecord = new ItemClaimsReturnedRecord();
+            if (itemClaimsReturnedRecord.getClaimsReturnedFlagCreateDate() != null && !itemClaimsReturnedRecord.getClaimsReturnedFlagCreateDate().toString().isEmpty()) {
+                String formatedDateStringForClaimsReturn = convertToString(itemClaimsReturnedRecord.getClaimsReturnedFlagCreateDate());
+                claimsReturnedRecord.setClaimsReturnedFlagCreateDate(formatedDateStringForClaimsReturn);
+            }
+            claimsReturnedRecord.setClaimsReturnedNote(itemClaimsReturnedRecord.getClaimsReturnedNote());
+            claimsReturnedRecord.setClaimsReturnedPatronBarcode(itemClaimsReturnedRecord.getClaimsReturnedPatronBarcode());
+            claimsReturnedRecord.setClaimsReturnedOperatorId(itemClaimsReturnedRecord.getClaimsReturnedOperatorId());
+            claimsReturnedRecord.setItemId(itemClaimsReturnedRecord.getItemId());
+            itemClaimsReturnedRecordList.add(claimsReturnedRecord);
+        }
+        return itemClaimsReturnedRecordList;
     }
 
     private boolean subsequentRequestExistsForItem(OleItemRecordForCirc oleItemRecordForCirc, OlePatronDocument currentBorrower) {
