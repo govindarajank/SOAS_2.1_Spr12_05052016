@@ -488,6 +488,7 @@ public class OleLicenseRequestServiceImpl implements OleLicenseRequestService {
                         }
                         if(add){
                             OleLicenseRequestBo oleLicenseRequestBo=getOleLicenseRequestBoWithDocNumb(licenseRequestBo);
+                            if(oleLicenseRequestBo!=null){
                             List<OleLicenseRequestItemTitle> itemTitleList = oleLicenseRequestBo.getOleLicenseRequestItemTitles();
                             List<OleLicenseRequestItemTitle> newItemTitleList = new ArrayList<OleLicenseRequestItemTitle>();
                             if(itemTitleList!=null && itemTitleList.size()>0 ){
@@ -533,7 +534,7 @@ public class OleLicenseRequestServiceImpl implements OleLicenseRequestService {
                                 licenseRequestList.add(licenseRequestBo);
                             }
 
-                        }
+                        }}
                     }  }
             }
         }catch  (ParseException e) {
@@ -602,8 +603,12 @@ public class OleLicenseRequestServiceImpl implements OleLicenseRequestService {
                     OLEConstants.OleLicenseRequest.END_TAG);
             Object businessObject =null;
             if(maintXml!=null){
-                maintXml = maintXml.substring(2,maintXml.length());
-                businessObject = KRADServiceLocator.getXmlObjectSerializerService().fromXml(maintXml);
+                maintXml = maintXml.substring(2, maintXml.length());
+                if(maintXml.contains("isperpectualAccess")){
+
+                }else {
+                    businessObject = KRADServiceLocator.getXmlObjectSerializerService().fromXml(maintXml);
+                }
             }
             return businessObject;                                                                            }
         else{
