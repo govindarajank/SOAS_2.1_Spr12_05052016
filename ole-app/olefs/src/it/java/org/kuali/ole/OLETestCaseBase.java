@@ -55,7 +55,7 @@ public class OLETestCaseBase {
         ConfigurationService configurationService = GlobalResourceLoader.getService("kualiConfigurationService");
         if (configurationService.getPropertyValueAsBoolean("use.quartz.scheduling")) {
             try {
-                LOG.info("Attempting to initialize the SchedulerService");
+                LOG.error("Attempting to initialize the SchedulerService");
                 SpringContext.getBean(SchedulerService.class).initialize();
                 SpringContext.getBean(OLEBatchSchedulerService.class).initialize();
                 LOG.info("Starting the Quartz scheduler");
