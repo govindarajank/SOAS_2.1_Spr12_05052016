@@ -146,7 +146,7 @@ public class OLEAddTitlesToInvoiceService {
 
 
         int index = 0;
-        for (String poitmId : purchaseOrderItemIds) {
+        //for (String poitmId : purchaseOrderItemIds) {
             //
 
             for (String purchaseOrderItemId : purchaseOrderItemIds) {
@@ -160,7 +160,7 @@ public class OLEAddTitlesToInvoiceService {
                     for (OlePurchaseOrderDocument olePurchaseOrderDocument : olePurchaseOrderDocuments) {
                         List<OlePurchaseOrderItem> olePurchaseOrderItems = olePurchaseOrderDocument.getItems();
                         for (OlePurchaseOrderItem olePurchaseOrderItem : olePurchaseOrderItems) {
-                            if (olePurchaseOrderItem.getItemIdentifier().toString().equalsIgnoreCase(poitmId.toString())) {
+                            if (olePurchaseOrderItem.getItemIdentifier().toString().equalsIgnoreCase(purchaseOrderItemId.toString())) {
                                 if (validateRecords(olePurchaseOrderDocument.getPurapDocumentIdentifier(), olePurchaseOrderDocument.getDocumentNumber())) {
                                     olePurchaseOrderItem.setSelected(true);
                                     olePurchaseOrderItem.setOlePurchaseOrderDocument(olePurchaseOrderDocument);
@@ -182,7 +182,7 @@ public class OLEAddTitlesToInvoiceService {
                     index++;
                 }
             }
-        }
+        //}
         return result;
     }
 

@@ -14,6 +14,7 @@ import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.form.OLEForm;
 import org.kuali.ole.deliver.util.*;
+import org.kuali.ole.docstore.common.document.content.instance.ItemClaimsReturnedRecord;
 import org.kuali.ole.docstore.common.document.content.instance.MissingPieceItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
@@ -532,7 +533,16 @@ public abstract class CheckoutBaseController extends CircUtilController {
                 claimsRecordInfo.put("noteParameter", OLEConstants.CLAIMS_CHECKED_OUT_FLAG);
                 getClaimsReturnedNoteHandler().savePatronNoteForClaims(claimsRecordInfo, oleLoanDocument.getOlePatron());
             }
+            DroolsExchange droolsExchange = oleForm.getDroolsExchange();
+            OleItemRecordForCirc oleItemRecordForCirc = null != droolsExchange ? (OleItemRecordForCirc) droolsExchange.getFromContext("oleItemRecordForCirc") : null;
+            ItemRecord itemRecord = null != oleItemRecordForCirc ? oleItemRecordForCirc.getItemRecord() : null;
+            if(null != itemRecord) {
+                itemRecord.setClaimsReturnedFlag(false);
+                itemRecord.setClaimsReturnedNote(null);
+                itemRecord.setClaimsReturnedFlagCreateDate(null);
+            }
         }
+
     }
 
     private void saveDamagedItemNote(OLEForm oleForm, OleLoanDocument oleLoanDocument) {
