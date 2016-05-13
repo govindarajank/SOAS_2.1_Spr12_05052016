@@ -485,7 +485,7 @@
 
   <!--Drools rule file directory-->
   <param name="rules.directory">${project.home}/rules</param>
-  <param name="rules.source.directory">org/kuali/ole/rules/soas</param>
+  <param name="rules.source.directory">org/kuali/ole/rules.soas</param>
 
 
     <!-- Gokb url-->
