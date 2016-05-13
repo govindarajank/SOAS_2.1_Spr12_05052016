@@ -27,6 +27,11 @@ import java.util.*;
  */
 public class OLERequestTypeFinder extends UifKeyValuesFinderBase {
 
+
+    public boolean isAddBlankOption() {
+        return false;
+    }
+
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> requestKeyLabels = new ArrayList<KeyValue>();
