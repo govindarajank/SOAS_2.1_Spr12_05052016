@@ -83,6 +83,7 @@ public class InstanceMappingHelper {
                             item = itemOlemlRecordProcessor.fromXML(itemDoc.getContent());
                         } else {
                             item = (Item) itemDoc.getContentObject();
+                            item.setItemIdentifier(itemDoc.getId());
                         }
                         List<DataField> dataFieldsItemList = generateSubFieldsForItem(holdingsTree.getHoldings(), item, dataFieldsItemsMap, dataFieldsDonorMap, new ArrayList<DataField>());
                         if (!CollectionUtils.isEmpty(dataFieldsItemList))
@@ -110,6 +111,7 @@ public class InstanceMappingHelper {
                 DataField dataField;
                 if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.LOCAL_IDENTIFIER)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    holdings.setHoldingsIdentifier(holdingsDocument.getId());
                     if (dataField == null) {
                         dataField = getDataField(entry);
                         generateHoldingLocalIdentifier(holdings, getCode(entry.getKey()), dataField);
