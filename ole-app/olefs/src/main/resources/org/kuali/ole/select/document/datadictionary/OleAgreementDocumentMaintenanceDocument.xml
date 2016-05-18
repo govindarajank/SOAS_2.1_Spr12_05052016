@@ -39,7 +39,7 @@
         <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
         <property name="documentTypeName" value="OLE_AGR_REC"/>
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-        <property name="businessRulesClass" value="org.kuali.ole.select.rule.OleAgreementRecordRule"/>
+        <!--<property name="businessRulesClass" value="org.kuali.ole.select.rule.OleAgreementRecordRule"/>-->
         <property name="lockingKeys">
             <list>
                 <value>agreementId</value>
@@ -128,9 +128,8 @@
 
 
                             <bean id="Agreement-Licensor" parent="Uif-InputField" p:propertyName="licensor"  p:required="true">
-                                <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
-                                          p:fieldConversions="principalName:licensor"/>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20" p:maxLength="200"/>
                                 </property>
                             </bean>
 

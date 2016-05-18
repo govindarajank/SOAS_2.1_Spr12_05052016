@@ -134,12 +134,7 @@
                               p:fieldConversions="principalName:licensee"/>
                     </property>
                 </bean>
-                <bean id="licensor" parent="Uif-LookupCriteriaInputField" p:propertyName="licensor">
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
-                              p:fieldConversions="principalName:licensor"/>
-                    </property>
-                </bean>
+                <bean id="licensor" parent="Uif-LookupCriteriaInputField" p:propertyName="licensor"/>
             </list>
         </property>
         <property name="resultFields">

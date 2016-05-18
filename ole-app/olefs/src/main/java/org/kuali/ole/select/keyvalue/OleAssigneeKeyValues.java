@@ -46,7 +46,7 @@ public class OleAssigneeKeyValues extends KeyValuesBase {
     @Override
     public List getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", ""));
+     //   keyValues.add(new ConcreteKeyValue("", ""));
         Map<String, String> roleSearchCriteria = new HashMap<String, String>();
         roleSearchCriteria.put("lookupRoleNamespaceCode", OLEConstants.OleLicenseRequest.LICENSE_NMSPACE);
         roleSearchCriteria.put("lookupRoleName", OLEConstants.OleLicenseRequest.LICENSE_ASSIGNEE_ROLE);

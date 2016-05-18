@@ -59,7 +59,7 @@ public class OleAgreementMethodKeyValues extends KeyValuesBase {
     public List getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         Collection<OleAgreementMethod> oleAgreementMethodCollection = KRADServiceLocator.getBusinessObjectService().findAll(OleAgreementMethod.class);
-        keyValues.add(new ConcreteKeyValue("", ""));
+     //   keyValues.add(new ConcreteKeyValue("", ""));
         for (OleAgreementMethod oleAgreementMethod : oleAgreementMethodCollection) {
             keyValues.add(new ConcreteKeyValue(oleAgreementMethod.getAgreementMethodId(), oleAgreementMethod.getAgreementMethodName()));
         }

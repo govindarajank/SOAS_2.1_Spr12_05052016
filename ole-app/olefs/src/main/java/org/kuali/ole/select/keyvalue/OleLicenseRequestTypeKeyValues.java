@@ -59,7 +59,7 @@ public class OleLicenseRequestTypeKeyValues extends KeyValuesBase {
     public List getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         Collection<OleLicenseRequestType> licenseRequestTypes = KRADServiceLocator.getBusinessObjectService().findAll(OleLicenseRequestType.class);
-        keyValues.add(new ConcreteKeyValue("", ""));
+ //       keyValues.add(new ConcreteKeyValue("", ""));
         for (OleLicenseRequestType licenseRequestType : licenseRequestTypes) {
             if (licenseRequestType.isActive()) {
                 keyValues.add(new ConcreteKeyValue(licenseRequestType.getId(), licenseRequestType.getName()));
