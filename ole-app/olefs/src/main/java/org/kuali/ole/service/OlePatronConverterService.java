@@ -638,13 +638,13 @@ public class OlePatronConverterService {
                                     return false;
                                 }
                             }
-                            if (StringUtils.isNotBlank(phoneNumbers.getPhoneSource())) {
-                                criteriaPhoneSource.put(OLEConstants.ADDRESS_SOURCE_CD, phoneNumbers.getPhoneSource());
+
+                                criteriaPhoneSource.put(OLEConstants.ADDRESS_SOURCE_CD, "MF");
                                 List<OleAddressSourceBo> oleAddressSourceBoList = (List<OleAddressSourceBo>) getBusinessObjectService().findMatching(OleAddressSourceBo.class, criteriaPhoneSource);
                                 if (oleAddressSourceBoList.size() > 0) {
                                     olePhoneBo.setPhoneSource(oleAddressSourceBoList.get(0).getOleAddressSourceId());
                                 }
-                            }
+
                             entityPhoneBo.setActive(phoneNumbers.isActive());
                             entityPhoneBo.setDefaultValue(phoneNumbers.isDefaults());
                             if (createOrUpdate.equals(OLEConstants.UPDATE)) {
@@ -736,13 +736,13 @@ public class OlePatronConverterService {
                     if (entityType.size() > 0) {
                         entityEmailBo.setEmailType(entityType.get(0));
                         entityEmailBo.setEmailTypeCode(entityType.get(0).getCode());
-                        if (StringUtils.isNotBlank(emailAddresses.getEmailSource())) {
-                            criteriaEmailSource.put(OLEConstants.ADDRESS_SOURCE_CD, emailAddresses.getEmailSource());
+
+                            criteriaEmailSource.put(OLEConstants.ADDRESS_SOURCE_CD, "MF");
                             List<OleAddressSourceBo> oleAddressSourceBoList = (List<OleAddressSourceBo>) getBusinessObjectService().findMatching(OleAddressSourceBo.class, criteriaEmailSource);
                             if (oleAddressSourceBoList.size() > 0) {
                                 oleEmailBo.setEmailSource(oleAddressSourceBoList.get(0).getOleAddressSourceId());
                             }
-                        }
+
                         entityEmailBo.setActive(emailAddresses.isActive());
                         entityEmailBo.setDefaultValue(emailAddresses.isDefaults());
                         if (createOrUpdate.equals(OLEConstants.UPDATE)) {

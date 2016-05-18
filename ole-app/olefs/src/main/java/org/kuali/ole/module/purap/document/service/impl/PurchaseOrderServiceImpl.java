@@ -2496,9 +2496,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                                     processFTPTransmission(vendorTransmissionFormatDetail, file, pdfFileName.trim());
                                     documentNumber = po.getDocumentNumber();
                                 }
-                                if (isSuccess && vendorTransmissionFormatDetail.getVendorTransmissionTypes().getVendorTransmissionType() != null) {
+                            }
+                            if (isSuccess && vendorTransmissionFormatDetail.getVendorTransmissionTypes().getVendorTransmissionType() != null) {
                                     processFTPTransmission(vendorTransmissionFormatDetail, file, ediFileName.trim());
-                                }
                             }
                         }
                     }
