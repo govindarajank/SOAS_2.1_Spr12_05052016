@@ -211,6 +211,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService, Docstor
                buildQueryWithFacetConditions(solrQuery, searchParams.getFacetConditions());
             }
             LOG.info("Executing solr query :" +solrQuery.toString());
+            System.out.println("Executing solr query :" +solrQuery.toString());
             QueryResponse response = server.query(solrQuery, SolrRequest.METHOD.POST);
             return buildSearchResponse(response, searchParams);
         } catch (SolrServerException ex) {
