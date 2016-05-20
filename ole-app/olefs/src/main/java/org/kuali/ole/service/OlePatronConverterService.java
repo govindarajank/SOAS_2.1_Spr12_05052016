@@ -296,48 +296,48 @@ public class OlePatronConverterService {
     }
 
     private List<EntityAddressBo> getExistingAddress(OlePatron olePatron,OlePatronDocument olePatronDocument){
-        List<String> addressTypeCodeList = addressTypeCodeList(olePatron);
+      //  List<String> addressTypeCodeList = addressTypeCodeList(olePatron);
         Map<String,String> entityBoCriteria = new HashMap<>();
         List<EntityAddressBo> entityAddressBoList = new ArrayList<>();
         List<EntityAddressBo> entityAddressBoTempList;
-        for(String addressTypeCode:addressTypeCodeList){
+      //  for(String addressTypeCode:addressTypeCodeList){
             entityBoCriteria.put("entityId",olePatronDocument.getOlePatronId());
-            entityBoCriteria.put("addressTypeCode",addressTypeCode);
+        //    entityBoCriteria.put("addressTypeCode",addressTypeCode);
             entityAddressBoTempList = (List<EntityAddressBo>)KRADServiceLocator.getBusinessObjectService().findMatching(EntityAddressBo.class,entityBoCriteria);
             entityAddressBoList.addAll(entityAddressBoTempList);
             entityBoCriteria.clear();
-        }
-        List<String> entityAddressIdList = new ArrayList<>();
+    //    }
+       // List<String> entityAddressIdList = new ArrayList<>();
         return entityAddressBoList;
     }
 
     private List<EntityPhoneBo> getExistingPhone(OlePatron olePatron,OlePatronDocument olePatronDocument){
-        List<String> phoneTypeCodeList = phoneTypeCodeList(olePatron);
+       // List<String> phoneTypeCodeList = phoneTypeCodeList(olePatron);
         Map<String,String> entityBoCriteria = new HashMap<>();
         List<EntityPhoneBo> entityPhoneBoList = new ArrayList<>();
         List<EntityPhoneBo> entityPhoneBoTempList;
-        for(String phoneTypeCode : phoneTypeCodeList){
+        //for(String phoneTypeCode : phoneTypeCodeList){
             entityBoCriteria.put("entityId",olePatronDocument.getOlePatronId());
-            entityBoCriteria.put("phoneTypeCode",phoneTypeCode);
+          //  entityBoCriteria.put("phoneTypeCode",phoneTypeCode);
             entityPhoneBoTempList = (List<EntityPhoneBo>)KRADServiceLocator.getBusinessObjectService().findMatching(EntityPhoneBo.class,entityBoCriteria);
             entityPhoneBoList.addAll(entityPhoneBoTempList);
             entityBoCriteria.clear();
-        }
+        //}
         return entityPhoneBoList;
     }
 
     private List<EntityEmailBo> getExistingEmail(OlePatron olePatron,OlePatronDocument olePatronDocument){
-        List<String> emailTypeCodeList = emailTypeCodeList(olePatron);
+     //   List<String> emailTypeCodeList = emailTypeCodeList(olePatron);
         Map<String,String> entityBoCriteria = new HashMap<>();
         List<EntityEmailBo> entityEmailBoList = new ArrayList<>();
         List<EntityEmailBo> entityEmailBoTempList;
-        for(String emailTypeCode : emailTypeCodeList){
+      //  for(String emailTypeCode : emailTypeCodeList){
             entityBoCriteria.put("entityId",olePatronDocument.getOlePatronId());
-            entityBoCriteria.put("emailTypeCode",emailTypeCode);
+        //    entityBoCriteria.put("emailTypeCode",emailTypeCode);
             entityEmailBoTempList = (List<EntityEmailBo>)KRADServiceLocator.getBusinessObjectService().findMatching(EntityEmailBo.class,entityBoCriteria);
             entityEmailBoList.addAll(entityEmailBoTempList);
             entityBoCriteria.clear();
-        }
+       // }
         return entityEmailBoList;
     }
 
