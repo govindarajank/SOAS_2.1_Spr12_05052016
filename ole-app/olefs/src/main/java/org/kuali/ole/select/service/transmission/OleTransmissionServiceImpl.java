@@ -100,9 +100,9 @@ public class OleTransmissionServiceImpl implements OleTransmissionService {
                 LOG.debug("FileName====================================>" + preferredFileName);
             }
 
-            String remoteDir = vendorDetail.getVendorAliases().toString();
+            /*String remoteDir = vendorDetail.getVendorAliases().toString();
             ftpClient.mkd(remoteDir);
-            ftpClient.cwd(remoteDir);
+            ftpClient.cwd(remoteDir);*/
             inputStream = new FileInputStream(fileLocation);
             ftpClient.storeFile(preferredFileName, inputStream);
 
