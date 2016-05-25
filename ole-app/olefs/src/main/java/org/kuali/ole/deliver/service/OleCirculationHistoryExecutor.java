@@ -27,33 +27,18 @@ import java.util.Map;
 /**
  * Created by maheswarang on 3/8/16.
  */
-public class OleCirculationHistoryExecutor implements Runnable{
+public class OleCirculationHistoryExecutor{
     private static final Logger LOG = Logger.getLogger(OleCirculationHistoryExecutor.class);
     private BusinessObjectService businessObjectService;
-    protected List<OleLoanDocument> oleLoanDocumentList;
-    protected List<OleCirculationHistory> oleCirculationHistoryList;
-    private DocstoreUtil docstoreUtil;
-    private OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb;
-    private OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService;
-    private EntityAffiliationBo entityAffiliationBo;
-    private EntityEmploymentBo entityEmploymentBo;
-    private OlePatronDocument olePatronDocument;
+    //protected List<OleLoanDocument> oleLoanDocumentList;
 
 
 
-    public OleLoanDocumentDaoOjb getOleLoanDocumentDaoOjb() {
-        if (oleLoanDocumentDaoOjb == null) {
-            oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
-        }
-        return oleLoanDocumentDaoOjb;
+    public OleCirculationHistoryExecutor(){
+
     }
 
 
-    public OleCirculationHistoryExecutor(List<OleLoanDocument> oleLoanDocumentList,EntityAffiliationBo entityAffiliationBo,EntityEmploymentBo entityEmploymentBo,OlePatronDocument olePatronDocument){
-        this.oleLoanDocumentList = oleLoanDocumentList;
-        this.entityAffiliationBo = entityAffiliationBo;
-        this.entityEmploymentBo = entityEmploymentBo;
-    }
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
             businessObjectService = KRADServiceLocator.getBusinessObjectService();
@@ -61,47 +46,32 @@ public class OleCirculationHistoryExecutor implements Runnable{
         return businessObjectService;
     }
 
-    public DocstoreUtil getDocstoreUtil(){
-        if(docstoreUtil==null){
-            docstoreUtil = new DocstoreUtil();
-        }
-        return docstoreUtil;
-    }
 
-    public OleDeliverRequestDocumentHelperServiceImpl getOleDeliverRequestDocumentHelperService() {
-        if (oleDeliverRequestDocumentHelperService == null) {
-            oleDeliverRequestDocumentHelperService = new OleDeliverRequestDocumentHelperServiceImpl();
-        }
-        return oleDeliverRequestDocumentHelperService;
-    }
-
-
-    @Override
-    public void run() {
+    public void run(List<OleLoanDocument> oleLoanDocuments,OlePatronDocument olePatron) {
         OleCirculationHistory oleCirculationHistory =null;
         try{
-        getOleDeliverRequestDocumentHelperService().getLoanDocumentWithItemInfo(oleLoanDocumentList,false);
-        oleCirculationHistoryList = new ArrayList<OleCirculationHistory>();
-           for(OleLoanDocument oleLoanDocument : oleLoanDocumentList){
-            oleCirculationHistory = createCirculationHistoryRecords(oleLoanDocument);
+      //  getOleDeliverRequestDocumentHelperService().getLoanDocumentWithItemInfo(oleLoanDocumentList,false);
+            List<OleCirculationHistory> oleCirculationHistoryList = new ArrayList<OleCirculationHistory>();
+           for(OleLoanDocument oleLoanDocument : oleLoanDocuments){
+            oleCirculationHistory = createCirculationHistoryRecords(oleLoanDocument,olePatron);
             if(oleCirculationHistory!=null){
                 oleCirculationHistoryList.add(oleCirculationHistory);
             }
         }
         if(oleCirculationHistoryList!=null && oleCirculationHistoryList.size()>0){
-        getBusinessObjectService().save(oleCirculationHistoryList);
+            getBusinessObjectService().save(oleCirculationHistoryList);
         }
         }catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    public OleCirculationHistory createCirculationHistoryRecords(OleLoanDocument oleLoanDocument) {
-        LOG.info("Processing Loan Document with Loan Id: " + oleLoanDocument.getLoanId());
+    public OleCirculationHistory createCirculationHistoryRecords(OleLoanDocument oleLoanDocument,OlePatronDocument olePatron) {
+        //LOG.info("Processing Loan Document with Loan Id: " + oleLoanDocument.getLoanId());
         OleCirculationHistory oleCirculationHistory = new OleCirculationHistory();
         try{
             oleCirculationHistory = setCirculationDetails(oleCirculationHistory, oleLoanDocument);
-            oleCirculationHistory = setPatronDetails(oleCirculationHistory,olePatronDocument);
+            oleCirculationHistory = setPatronDetails(oleCirculationHistory,olePatron);
             oleCirculationHistory = setItemDetails(oleCirculationHistory,oleLoanDocument);
         }catch(Exception e){
             oleCirculationHistory = null;
@@ -118,7 +88,7 @@ public class OleCirculationHistoryExecutor implements Runnable{
             if (olePatronDocument.getOleBorrowerType() != null) {
                 oleCirculationHistory.setPatronTypeId(olePatronDocument.getOleBorrowerType().getBorrowerTypeId());
             }
-          setAffiliationDetails(oleCirculationHistory);
+          //setAffiliationDetails(oleCirculationHistory);
         }
    return oleCirculationHistory;
     }
@@ -138,24 +108,25 @@ public class OleCirculationHistoryExecutor implements Runnable{
     }
 
     public OleCirculationHistory setItemDetails(OleCirculationHistory oleCirculationHistory,OleLoanDocument oleLoanDocument){
-    oleCirculationHistory.setBibAuthor(oleLoanDocument.getAuthor());
-    oleCirculationHistory.setBibTitle(oleLoanDocument.getTitle());
-    oleCirculationHistory.setItemId(oleLoanDocument.getItemId());
-    oleCirculationHistory.setItemUuid(oleLoanDocument.getItemUuid());
-    oleCirculationHistory.setItemLocation(oleLoanDocument.getItemsLocation());
-    oleCirculationHistory.setHoldingsLocation(oleLoanDocument.getHoldingsLocation());
-    oleCirculationHistory.setItemTypeId(oleLoanDocument.getItemTypeId());
-    oleCirculationHistory.setTemporaryItemTypeId(oleLoanDocument.getTempItemTypeId());
-    return oleCirculationHistory;
+        OleItemSearch oleItemSearch = new DocstoreUtil().getOleItemSearchList(oleLoanDocument.getItemUuid());
+        oleCirculationHistory.setBibAuthor(oleItemSearch.getAuthor());
+        oleCirculationHistory.setBibTitle(oleItemSearch.getTitle());
+        oleCirculationHistory.setItemId(oleLoanDocument.getItemId());
+        oleCirculationHistory.setItemUuid(oleLoanDocument.getItemUuid());
+        oleCirculationHistory.setItemLocation(oleItemSearch.getShelvingLocation());
+        oleCirculationHistory.setHoldingsLocation(oleItemSearch.getShelvingLocation());
+        oleCirculationHistory.setItemTypeId(oleLoanDocument.getItemTypeId());
+        oleCirculationHistory.setTemporaryItemTypeId(oleLoanDocument.getTempItemTypeId());
+        return oleCirculationHistory;
 
-}
+    }
 
-    protected void setAffiliationDetails(OleCirculationHistory oleCirculationHistory) {
+  /*  protected void setAffiliationDetails(OleCirculationHistory oleCirculationHistory) {
         if ( entityAffiliationBo!= null) {
             oleCirculationHistory.setAffiliationId(entityAffiliationBo.getAffiliationTypeCode());
         }
         if (entityEmploymentBo != null && entityEmploymentBo.getPrimaryDepartmentCode() != null) {
             oleCirculationHistory.setDeptId(entityEmploymentBo.getPrimaryDepartmentCode());
         }
-    }
+    }*/
 }

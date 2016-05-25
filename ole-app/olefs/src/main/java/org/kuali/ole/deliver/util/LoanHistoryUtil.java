@@ -93,7 +93,7 @@ public class LoanHistoryUtil {
                         if (patronDocuments != null && patronDocuments.size() > 0) {
                             olePatronDocument = patronDocuments.get(0);
                         }
-                        ExecutorService oleCirculationHistoryExecutor = Executors.newFixedThreadPool(5);
+                        //ExecutorService oleCirculationHistoryExecutor = Executors.newFixedThreadPool(5);
                         List<EntityAffiliationBo> entityAffiliationBos = getOleLoanDocumentDaoOjb().getEntityAffiliationBos(oleLoanDocumentList.get(0).getPatronId());
                         if (entityAffiliationBos != null && entityAffiliationBos.size() > 0) {
                             entityAffiliationBo = entityAffiliationBos.get(0);
@@ -103,8 +103,8 @@ public class LoanHistoryUtil {
                             entityEmploymentBo = entityEmploymentBos.get(0);
                         }
                         if (patronMapWithLoanDetails.get(patronId) != null && patronMapWithLoanDetails.get(patronId).size() > 0) {
-                            Runnable oleCirculationHistory = new OleCirculationHistoryExecutor(patronMapWithLoanDetails.get(patronId), entityAffiliationBo, entityEmploymentBo, olePatronDocument);
-                            oleCirculationHistoryExecutor.execute(oleCirculationHistory);
+                            OleCirculationHistoryExecutor oleCirculationHistory = new OleCirculationHistoryExecutor();
+                            oleCirculationHistory.run(patronMapWithLoanDetails.get(patronId),olePatronDocument);
                         }
                     }
                     Long endTime = System.currentTimeMillis();
