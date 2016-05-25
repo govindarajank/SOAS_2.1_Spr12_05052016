@@ -827,23 +827,24 @@ public abstract class CheckinBaseController extends CircUtilController {
             criteriaMap.put("loanId",oleLoanDocument.getLoanId());
             List<OleCirculationHistory> circulationHistoryRecords = (List<OleCirculationHistory>) getBusinessObjectService().findMatching(OleCirculationHistory.class,criteriaMap);
             if(circulationHistoryRecords.size()>0){
-            OleCirculationHistory oleCirculationHistory =  circulationHistoryRecords.get(0);
-            if(GlobalVariables.getUserSession()!=null && GlobalVariables.getUserSession().getPrincipalId()!=null){
-                oleCirculationHistory.setCheckInOperatorId(GlobalVariables.getUserSession().getPrincipalId());
-            }
-            if(oleLoanDocument.isOverrideCheckInTime()){
-              oleCirculationHistory.setCheckInDate(new Timestamp(System.currentTimeMillis()));
-              oleCirculationHistory.setOverrideCheckInDateTime(oleLoanDocument.getCheckInDate());
-             }else{
-            oleCirculationHistory.setCheckInDate(oleLoanDocument.getCheckInDate() != null ? oleLoanDocument.getCheckInDate() : new Timestamp(System.currentTimeMillis()));
-            }
+                OleCirculationHistory oleCirculationHistory =  circulationHistoryRecords.get(0);
+                if(GlobalVariables.getUserSession()!=null && GlobalVariables.getUserSession().getPrincipalId()!=null){
+                    oleCirculationHistory.setCheckInOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                }
+                if(oleLoanDocument.isOverrideCheckInTime()){
+                  oleCirculationHistory.setCheckInDate(new Timestamp(System.currentTimeMillis()));
+                  oleCirculationHistory.setOverrideCheckInDateTime(oleLoanDocument.getCheckInDate());
+                }else{
+                oleCirculationHistory.setCheckInDate(oleLoanDocument.getCheckInDate() != null ? oleLoanDocument.getCheckInDate() : new Timestamp(System.currentTimeMillis()));
+                }
                 oleCirculationHistory.setDueDate(oleLoanDocument.getLoanDueDate());
-            oleCirculationHistory.setNumberOfOverdueNoticesSent(oleLoanDocument.getNumberOfOverdueNoticesSent());
-            oleCirculationHistory.setNumberOfRenewals(oleLoanDocument.getNumberOfRenewals());
-            oleCirculationHistory.setRepaymentFeePatronBillId(oleLoanDocument.getRepaymentFeePatronBillId());
-            oleCirculationHistory.setPastDueDate(oleLoanDocument.getPastDueDate());
-            oleCirculationHistory.setOverdueNoticeDate(oleLoanDocument.getOverDueNoticeDate());
-            OleCirculationHistory savedCircHistoryRecord = getBusinessObjectService().save(oleCirculationHistory);
+                oleCirculationHistory.setNumberOfOverdueNoticesSent(oleLoanDocument.getNumberOfOverdueNoticesSent());
+                oleCirculationHistory.setNumberOfRenewals(oleLoanDocument.getNumberOfRenewals());
+                oleCirculationHistory.setRepaymentFeePatronBillId(oleLoanDocument.getRepaymentFeePatronBillId());
+                oleCirculationHistory.setPastDueDate(oleLoanDocument.getPastDueDate());
+                oleCirculationHistory.setOverdueNoticeDate(oleLoanDocument.getOverDueNoticeDate());
+                oleCirculationHistory.setItemTypeId(itemRecord.getItemTypeId());
+                OleCirculationHistory savedCircHistoryRecord = getBusinessObjectService().save(oleCirculationHistory);
             }
             OleTemporaryCirculationHistory oleTemporaryCirculationHistory = new OleTemporaryCirculationHistory();
             oleTemporaryCirculationHistory.setCirculationLocationId(oleLoanDocument.getCirculationLocationId());
