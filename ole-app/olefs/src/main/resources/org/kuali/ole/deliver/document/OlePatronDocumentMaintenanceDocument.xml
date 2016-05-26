@@ -1344,7 +1344,7 @@
                 </bean>
 
                 <bean id="addressSource" parent="OlePatron-InputField" p:propertyName="oleAddressBo.addressSource"
-                      p:label="Address Source" p:required="true" p:enableAutoDirectInquiry="false">
+                      p:label="Address Source" p:required="true" p:enableAutoDirectInquiry="false" p:defaultValue="3">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.deliver.keyvalue.OleAddressSourceKeyValue"/>
                     </property>
@@ -1445,7 +1445,7 @@
                     </property>
                 </bean>
                 <bean id="olePhoneNumberSource" parent="OlePatron-InputField" p:propertyName="olePhoneBo.phoneSource"
-                      p:label="Phone Number Source" p:required="true" p:enableAutoDirectInquiry="false">
+                      p:label="Phone Number Source" p:required="true" p:enableAutoDirectInquiry="false" p:defaultValue="3">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.deliver.keyvalue.OleAddressSourceKeyValue"/>
                     </property>
@@ -1521,7 +1521,7 @@
                     </property>
                 </bean>
                 <bean id="oleEmailAddressSource" parent="OlePatron-InputField" p:propertyName="oleEmailBo.emailSource"
-                      p:label="Email Address Source" p:required="true" p:enableAutoDirectInquiry="false">
+                      p:label="Email Address Source" p:required="true" p:enableAutoDirectInquiry="false" p:defaultValue="3">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.deliver.keyvalue.OleAddressSourceKeyValue"/>
                     </property>
