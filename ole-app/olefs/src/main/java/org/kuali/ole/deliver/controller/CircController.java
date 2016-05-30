@@ -631,15 +631,7 @@ public class CircController extends CheckoutValidationController {
             circForm.setErrorMessage(errorMessage);
 
             if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForRenew())) {
-
-                if(selectedLoanDocumentList.get(0).getItemStatus()!=null && selectedLoanDocumentList.get(0).getItemStatus().equalsIgnoreCase("LOST")){
-                    droolsResponse.getErrorMessage().setErrorMessage("Item is Lost.Hence It cannot be renewed.");
-                    circForm.setErrorMessage(droolsResponse.getErrorMessage());
-                    showDialogAndRunCustomScript("generalInfoDialog", circForm, "jq('.loanedItemCBClass').removeAttr('checked');jq('.loaningItemCBClass').removeAttr('checked');");
-                    circForm.setLoanDocumentsForRenew(new ArrayList<OleLoanDocument>());
-                }else {
-                    showDialogAndRunCustomScript("renewOverrideDialog", circForm, "jq('.renewItemCBClass').removeAttr('checked');jq('.renewItemCBClass').removeAttr('checked');");
-                }
+                showDialogAndRunCustomScript("renewOverrideDialog", circForm, "jq('.renewItemCBClass').removeAttr('checked');jq('.renewItemCBClass').removeAttr('checked');");
             } else if (StringUtils.isNotBlank(messageContentForRenew)) {
                 showDialogAndRunCustomScript("generalInfoWithRefreshDialog", circForm, "jq('.loanedItemCBClass').removeAttr('checked');jq('.loaningItemCBClass').removeAttr('checked');");
                 circForm.setLoanDocumentsForRenew(new ArrayList<OleLoanDocument>());
