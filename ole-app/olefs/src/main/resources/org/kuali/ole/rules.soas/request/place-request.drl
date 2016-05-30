@@ -24,7 +24,7 @@ getRequestTypeCode() in ("Recall/Hold Request"))
 then
 $d.setRuleMatched(true);
 $n.setNoticeType(OLEConstants.NOTICE_RECALL);
-$d.getDroolsExchange().addToContext("requestExpirationDays",7);
+$d.getDroolsExchange().addToContext("requestExpirationDays",359);
 $d.getDroolsExchange().addToContext("minimumLoanPeriod","0-D");
 $d.getDroolsExchange().addToContext("recallLoanPeriod","7-D");
  end
@@ -76,7 +76,7 @@ getRequestTypeCode() in ("Recall/Hold Request"))
 then
 $d.setRuleMatched(true);
 $n.setNoticeType(OLEConstants.NOTICE_RECALL);
-$d.getDroolsExchange().addToContext("requestExpirationDays",7);
+$d.getDroolsExchange().addToContext("requestExpirationDays",359);
 $d.getDroolsExchange().addToContext("minimumLoanPeriod","0-D");
 $d.getDroolsExchange().addToContext("recallLoanPeriod","7-D");
  end
