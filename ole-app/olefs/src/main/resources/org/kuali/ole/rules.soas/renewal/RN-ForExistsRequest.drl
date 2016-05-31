@@ -26,6 +26,5 @@ $i: OleItemRecordForCirc($dr:getOleDeliverRequestBo(), null!= $dr)
 then
  $d.setRuleMatched(true);
  $d.addErrorMessage("The item cannot be renewed because it has been requested.");
- $l.loanPeriod("7-D","7-D");
  $d.addErrorMessageCode("ErrorMessageFromRule");
  end
