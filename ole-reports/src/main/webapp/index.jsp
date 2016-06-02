@@ -94,7 +94,7 @@
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CourtesyNotices.rptdesign"%>" target="_blank">Courtesy Notices</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OverdueRecallNoticeForCustomer.rptdesign"%>" target="_blank">Overdue Recall Notice For Customer</a></li>--%>
 
-                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OutstandingHolds.rptdesign"%>" target="_blank">Outstanding Holds</a></li>
+                    <%--<li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OutstandingHolds.rptdesign"%>" target="_blank">Outstanding Holds</a></li>--%>
                     <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CashTransactions.rptdesign"%>" target="_blank">Cash Transactions</a></li>
                     <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostOrMissingItems.rptdesign"%>" target="_blank">Lost/Missing Items</a></li>
                     <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ItemTypeStatistics.rptdesign"%>" target="_blank">Item Type Statistics</a></li>
