@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.service;
 import org.apache.log4j.Logger;
 import org.jfree.util.Log;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
@@ -175,11 +176,18 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
             oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);
         }else{
             oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
-            oleNoticeContentConfigurationBo.setNoticeTitle("LOST");
-            oleNoticeContentConfigurationBo.setNoticeBody("Item is Lost");
+            oleNoticeContentConfigurationBo.setNoticeTitle("**LOST NOTICE**");
+            oleNoticeContentConfigurationBo.setNoticeBody(getBody());
             oleNoticeContentConfigurationBo.setNoticeFooterBody("");
             oleNoticeContentConfigurationBo.setNoticeType(OLEConstants.NOTICE_LOST);
         }
+    }
+
+
+    public String getBody() {
+        String body = getParameterResolverInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
+                .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.LOST_NOTICE_CONTENT);
+        return body;
     }
 
     @Override
