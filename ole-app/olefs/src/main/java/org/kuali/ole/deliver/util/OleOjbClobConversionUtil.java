@@ -28,10 +28,23 @@ public class OleOjbClobConversionUtil implements FieldConversion {
                      bytes = b.getSubString(1, (int) b.length()).getBytes();
                     return bytes;
                 } else if(source instanceof String){
-                     String content = (String)source;
-                    if(!content.contains("HTML") && !content.contains("html")){
-                    bytes = Hex.decodeHex(((String) source).toCharArray());
-                    return bytes;
+                    String content = (String)source;
+                    String changedContent = null;
+                    if(content.contains("\"")){
+                        changedContent = content.replace("\"", "'" );
+                    }
+                    if(changedContent!=null){
+
+                        if(!changedContent.contains("HTML") && !changedContent.contains("html")){
+                            bytes = Hex.decodeHex((changedContent).toCharArray());
+                            return bytes;
+                        }else{
+                            return changedContent.getBytes();
+                        }
+                    }
+                    else if(!content.contains("HTML") && !content.contains("html")){
+                        bytes = Hex.decodeHex(((String) source).toCharArray());
+                        return bytes;
                     }else{
                         return content.getBytes();
                     }
