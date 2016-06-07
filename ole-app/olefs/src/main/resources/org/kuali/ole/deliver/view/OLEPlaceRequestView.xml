@@ -315,7 +315,7 @@
     </bean>
 </property>
 </bean>-->
-                <bean  id="recallRequestTyp" parent="Uif-InputField" p:propertyName="recallRequestType" p:defaultValue="recall" p:hidden="@{!recallRequest and !displayRequestType}">
+                <bean  id="recallRequestTyp" parent="Uif-InputField" p:propertyName="recallRequestType" p:hidden="@{!recallRequest and !displayRequestType}">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl">
                             <property name="options">
