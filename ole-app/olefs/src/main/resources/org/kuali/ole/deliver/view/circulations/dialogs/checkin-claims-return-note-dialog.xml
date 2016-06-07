@@ -46,19 +46,19 @@
     <bean id="checkinClaimsReturn-buttons" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="checkin-claimsReturnNote-ok" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Ok" p:actionScript="
+                <bean id="checkin-claimsReturnNote-ok" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Ok" p:methodToCall="processMissingPiece"/><!--p:actionScript="
                    var isChecked = false;
                     isChecked = jq('#checkinClaimsReturn-record-Note_control_0').is(':checked');
                     jq.fancybox.close();
-                    submitForm('processMissingPiece',{recordNoteForClaimChecked:isChecked},null,true,function(){
-                    });"/>
-                <bean id="checkin-claimsReturnNote-cancel" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel" p:actionScript="jq.fancybox.close();submitForm('clearUI',null,null,null,null)"/>
+                    submitForm('processMissingPiece',{recordNoteForClaimChecked:isChecked},null,false,function(){
+                    });"-->
+                <bean id="checkin-claimsReturnNote-cancel" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel"  p:methodToCall="clearUI"/><!--p:actionScript="jq.fancybox.close();submitForm('clearUI',null,null,null,null)"-->
             </list>
         </property>
     </bean>
 
-    <bean id="checkinClaimsReturn-record-Note" parent="Return-Uif-InputField" p:propertyName="recordNoteForClaimsReturn"
-          p:label="Record a note or not" p:render="true">
+    <bean id="checkinClaimsReturn-record-Note" parent="Return-Uif-InputField" p:propertyName="recordNoteForClaimsReturnStr"
+          p:label="Record a note or not" p:render="true" p:defaultValue="true">
         <property name="control">
             <bean parent="Uif-HorizontalRadioControl">
                 <property name="options">

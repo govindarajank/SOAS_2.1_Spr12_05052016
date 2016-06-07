@@ -176,8 +176,11 @@ public class CheckinItemController extends OLEUifControllerBase {
         } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.CHECKIN_REQUEST_EXITS_FOR_THIS_ITEM)) {
             handleCheckinRequestExistsProcess(request, response, checkinForm, droolsResponse);
         }
+
         if(StringUtils.isBlank(checkinForm.getLightboxScript())) {
-            checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();");
+            checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();jq.fancybox.close();");
+        }else{
+            checkinForm.setLightboxScript(checkinForm.getLightboxScript()+"jq.fancybox.close();");
         }
         return getUIFModelAndView(checkinForm);
     }
@@ -411,7 +414,7 @@ public class CheckinItemController extends OLEUifControllerBase {
                                 HttpServletRequest request, HttpServletResponse response) {
         CheckinForm checkinForm = (CheckinForm) form;
         checkinForm.resetAll();
-        checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus();validateCheckInDate();");
+        checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus();validateCheckInDate();jq.fancybox.close();");
         return getUIFModelAndView(form, "checkinViewPage");
     }
 
@@ -537,9 +540,9 @@ public class CheckinItemController extends OLEUifControllerBase {
     }
 
     private void claimsCheck(HttpServletRequest request, CheckinForm checkinForm) {
-        String recordNoteForClaimChecked = request.getParameter("recordNoteForClaimChecked");
-        if (StringUtils.isNotBlank(recordNoteForClaimChecked)) {
-            checkinForm.setRecordNoteForClaimsReturn(Boolean.valueOf(recordNoteForClaimChecked));
+        //String recordNoteForClaimChecked = request.getParameter("recordNoteForClaimChecked");
+        if (StringUtils.isNotBlank(checkinForm.getRecordNoteForClaimsReturnStr())) {
+            checkinForm.setRecordNoteForClaimsReturn(Boolean.valueOf(checkinForm.getRecordNoteForClaimsReturnStr()));
         }
     }
 

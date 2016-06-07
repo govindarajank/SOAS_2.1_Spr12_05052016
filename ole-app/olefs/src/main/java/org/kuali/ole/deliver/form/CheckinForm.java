@@ -27,6 +27,7 @@ public class CheckinForm extends OLEForm {
     private ErrorMessage errorMessage;
 
     private boolean recordNoteForClaimsReturn;
+    private String recordNoteForClaimsReturnStr;
     private boolean recordNoteForDamagedItem;
     private boolean recordNoteForMissingPiece;
 
@@ -264,5 +265,13 @@ public class CheckinForm extends OLEForm {
 
     public void setPrintFormat(String printFormat) {
         this.printFormat = printFormat;
+    }
+
+    public String getRecordNoteForClaimsReturnStr() {
+        return recordNoteForClaimsReturnStr;
+    }
+
+    public void setRecordNoteForClaimsReturnStr(String recordNoteForClaimsReturnStr) {
+        this.recordNoteForClaimsReturnStr = recordNoteForClaimsReturnStr;
     }
 }
