@@ -116,3 +116,53 @@ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
   end
 
 
+  rule "2W_1M_6W_3MLoanHoldRequest"
+  agenda-group "place-request"
+  when
+  $n: NoticeInfo()
+  $d : DroolsResponse()
+  $p: OlePatronDocument(getBorrowerTypeCode() in ("ILL"),getRequestedItemRecordsCount()<3)
+  $dr: OleDeliverRequestBo(getItemType() in ("LONG","ONE_WEEK"),
+  getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),!isClaimsReturnedFlag(),
+  getRequestTypeCode() in ("Hold/Hold Request"))
+
+  then
+  $d.setRuleMatched(true);
+  $d.getDroolsExchange().addToContext("requestExpirationDays",359);
+   end
+
+  rule "2W_1M_6W_3MLoanHOLDRequest1"
+  agenda-group "place-request"
+  when
+  $n: NoticeInfo()
+  $d : DroolsResponse()
+  $p: OlePatronDocument(getBorrowerTypeCode() in ("ILL"),getRequestedItemRecordsCount()<3)
+  $i: OleDeliverRequestBo(getItemType() in ("LONG","ONE_WEEK"),
+  getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),isClaimsReturnedFlag(),
+  getRequestTypeCode() in ("Hold/Hold Request"))
+
+  then
+  $d.setRuleMatched(true);
+  $d.addErrorMessage("Item has been claimed as returned. So item is temporarily unavailable for circulation.");
+  $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+
+   end
+
+
+  rule "2W_1M_6W_3MLoanHoldRequest2"
+  agenda-group "place-request"
+  when
+  $n: NoticeInfo()
+  $d : DroolsResponse()
+  $p: OlePatronDocument(getBorrowerTypeCode() in ("ILL"),getRequestedItemRecordsCount()>=3)
+  $i: OleDeliverRequestBo(getItemType() in ("LONG","ONE_WEEK"),
+  getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),
+  getRequestTypeCode() in ("Hold/Hold Request"))
+
+  then
+  $d.setRuleMatched(true);
+  $d.addErrorMessage("The patron has reached the maximum Request limit");
+  $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   end
+
+
