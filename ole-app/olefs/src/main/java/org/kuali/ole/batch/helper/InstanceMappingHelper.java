@@ -258,8 +258,8 @@ public class InstanceMappingHelper {
                 }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CALL_NUMBER)) {
                     dataField = checkDataField(dataFieldItemList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (item.getCallNumber() == null) continue;
-                    if (callNumber != null && StringUtils.isNotEmpty(item.getCallNumber().getNumber()) && item.getCallNumber().getNumber().equals(callNumber))
-                        continue;
+                    /*if (callNumber != null && StringUtils.isNotEmpty(item.getCallNumber().getNumber()) && item.getCallNumber().getNumber().equals(callNumber))
+                        continue;*/
                     if (dataField == null) {
                         dataField = getDataField(entry);
                         generateCallNumber(item, getCode(entry.getKey()), dataField);
