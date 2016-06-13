@@ -86,7 +86,7 @@
             <h5><u>Requests</u></h5>
             <ul>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CancelledOnHolds.rptdesign"%>" target="_blank">Cancelled On Holds</a></li>
-                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/Holds.rptdesign"%>" target="_blank">Requests Lists</a></li>
+                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/Holds.rptdesign"%>" target="_blank">Requests List</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ItemMostlyRequested.rptdesign"%>" target="_blank">Item Requested Most</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/RequestedOverdueItems.rptdesign"%>" target="_blank">Requested Item Overdue</a></li>
             </ul>
