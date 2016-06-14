@@ -321,7 +321,7 @@ public abstract class CheckinBaseController extends CircUtilController {
             droolsResponse.addErrorMessageCode(DroolsConstants.CHECKIN_REQUEST_EXITS_FOR_THIS_ITEM);
             String errorMessage = "Request already exist for this item. <br/><br/> Do you want to checkin this item?.";
             if(itemRecord.getItemStatusRecord()!=null && itemRecord.getItemStatusRecord().getCode().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST)) {
-                errorMessage = errorMessage + "\n Item is marked as lost and/or replacement fee has been billed.Item should only be returned if item has been found..";
+                errorMessage = errorMessage + "\n Item is marked as lost and/or replacement fee has been billed.Item should only be returned if item has been found.";
             }
             droolsResponse.addErrorMessage(errorMessage);
             return droolsResponse;
@@ -441,7 +441,8 @@ public abstract class CheckinBaseController extends CircUtilController {
         int status=Integer.parseInt(itemRecord.getItemStatusId());
         if(itemRecord.getItemStatusRecord()!=null && itemRecord.getItemStatusRecord().getCode().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST)){
             DroolsResponse droolsResponse = new DroolsResponse();
-            droolsResponse.addErrorMessage("Item is marked as lost and/or replacement fee has been billed.Item should only be returned if item has been found..");
+            droolsResponse.addErrorMessage("Item is marked as lost and/or replacement fee has been billed.Item should only be returned if item has been found.");
+            droolsResponse.addErrorMessageCode(OLEConstants.ITEM_STATUS_LOST);
             return droolsResponse;
         }
         return null;
