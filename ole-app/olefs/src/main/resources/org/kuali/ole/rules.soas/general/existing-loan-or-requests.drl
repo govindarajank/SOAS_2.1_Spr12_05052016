@@ -88,7 +88,7 @@ import org.kuali.ole.deliver.util.DroolsResponse
   then
    $d.addErrorMessage("The item cannot be renewed because it has been requested.");
    $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
-   $d.addErrorMessageCode(DroolsConstants.LOANED_BY_SAME_PATRON_LOST);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
   end
 
  rule "Item loaned by someone else"
