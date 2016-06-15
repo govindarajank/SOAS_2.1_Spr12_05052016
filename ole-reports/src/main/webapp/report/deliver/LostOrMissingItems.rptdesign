@@ -16,7 +16,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
-            <property name="paramType">multi-value</property>
+            <property name="paramType">simple</property>
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
