@@ -27,7 +27,7 @@
         }
         .middle{
             position:absolute;
-            right:800px;
+            right:900px;
             top:120px;
         }
         .Fines{
@@ -97,17 +97,18 @@
         </ul>
         <ul class="first">
             <div class ="Fines">
-            <ul>
+
                 <h5><u>Fines</u></h5>
                 <ul>
                     <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CashTransactions.rptdesign"%>" target="_blank">Cash Transactions</a></li>
                     <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/VufindLogs.rptdesign"%>" target="_blank">Vufind Fines</a></li>
                 </ul>
-            </ul>
+
             </div>
         </ul>
     </div>
     <div class="middle">
+        <ul class="first">
         <h5><u>History</u></h5>
         <ul>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/FastAdd.rptdesign"%>" target="_blank">FastAdd</a></li>
@@ -116,6 +117,7 @@
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ClaimsReturn.rptdesign"%>" target="_blank">Claims Returned</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostOrMissingItems.rptdesign"%>" target="_blank">Lost/Missing Items</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/GeneralStatistics.rptdesign"%>" target="_blank">General Statistics</a></li>
+        </ul>
         </ul>
         <%--<ul id="statistics">
             <h5><u>Statistics</u></h5>
