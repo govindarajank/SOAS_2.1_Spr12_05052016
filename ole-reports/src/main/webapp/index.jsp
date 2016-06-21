@@ -27,8 +27,13 @@
         }
         .middle{
             position:absolute;
-            right:800px;
-            top:155px;
+            right:900px;
+            top:120px;
+        }
+        .Fines{
+            position:absolute;
+            right: 400px;
+            top:120px;
         }
         p {
             font-size: 125%;
@@ -78,7 +83,6 @@
 <div id="iframe_portlet_container_div">
     <br/>
     <div class="center">
-        <h2>Deliver</h2>
         <%   if (request != null && request.getRequestURL() != null && request.getRequestURL().toString().contains("reports.staging.ole.kuali.org")) {%>
         <p>Note: The reports data source is pointing to the staging environment at the moment.</p>
         <% } %>
@@ -92,31 +96,38 @@
             </ul>
         </ul>
         <ul class="first">
-            <h5><u>History</u></h5>
-            <ul>
-                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostOrMissingItems.rptdesign"%>" target="_blank">Lost/Missing Items</a></li><li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ItemCirculationRecord.rptdesign"%>" target="_blank">Item Circulation History</a></li>
-                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/PatronCirculationHistory.rptdesign"%>" target="_blank">Patron Circulation History</a></li>
-                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ClaimsReturn.rptdesign"%>" target="_blank">Claims Returned</a></li>
-            </ul>
+            <div class ="Fines">
+
+                <h5><u>Fines</u></h5>
+                <ul>
+                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CashTransactions.rptdesign"%>" target="_blank">Cash Transactions</a></li>
+                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/VufindLogs.rptdesign"%>" target="_blank">Vufind Fines</a></li>
+                </ul>
+
+            </div>
         </ul>
     </div>
     <div class="middle">
+        <ul class="first">
+        <h5><u>History</u></h5>
         <ul>
-            <h5><u>Fines</u></h5>
-            <ul>
-                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CashTransactions.rptdesign"%>" target="_blank">Cash Transactions</a></li>
-                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/VufindLogs.rptdesign"%>" target="_blank">Vufind Fines</a></li>
-            </ul>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/FastAdd.rptdesign"%>" target="_blank">FastAdd</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ItemCirculationRecord.rptdesign"%>" target="_blank">Item Circulation History</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/PatronCirculationHistory.rptdesign"%>" target="_blank">Patron Circulation History</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ClaimsReturn.rptdesign"%>" target="_blank">Claims Returned</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostOrMissingItems.rptdesign"%>" target="_blank">Lost/Missing Items</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/GeneralStatistics.rptdesign"%>" target="_blank">General Statistics</a></li>
         </ul>
-        <ul id="statistics">
+        </ul>
+        <%--<ul id="statistics">
             <h5><u>Statistics</u></h5>
             <ul>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ItemTypeStatistics.rptdesign"%>" target="_blank">Item Type Statistics</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CollectionStatistics.rptdesign"%>" target="_blank">Collection Statistics</a></li>
-                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/GeneralStatistics.rptdesign"%>" target="_blank">General Statistics</a></li>
+
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/StandardLoanBooks.rptdesign"%>" target="_blank">Standard Loan Books</a></li>
             </ul>
-        </ul>
+        </ul>--%>
 
     </div>
     <br/><br/><br/><br/>

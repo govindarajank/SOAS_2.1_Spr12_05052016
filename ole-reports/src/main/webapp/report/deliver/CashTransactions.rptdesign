@@ -61,6 +61,28 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="Patron Exp From Date" id="78">
+            <property name="valueType">static</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="Patron Exp To Date" id="84">
+            <property name="valueType">static</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="CashTransactions" id="7">
@@ -81,7 +103,7 @@
                 </ex-property>
             </list-property>
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
-            <property name="odaURL">jdbc:mysql://localhost/ole_16_new</property>
+            <property name="odaURL">jdbc:mysql://localhost/ole</property>
             <property name="odaUser">root</property>
             <encrypted-property name="odaPassword" encryptionID="base64">cm9vdA==</encrypted-property>
         </oda-data-source>
@@ -131,6 +153,11 @@
                     <property name="analysis">measure</property>
                     <text-property name="displayName">Outstanding Amount</text-property>
                     <text-property name="heading">Outstanding Amount</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXPIRATION_DATE</property>
+                    <text-property name="displayName">EXPIRATION_DATE</text-property>
+                    <text-property name="heading">EXPIRATION_DATE</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">Item Barcode</property>
@@ -202,7 +229,7 @@
                     </structure>
                     <structure>
                         <property name="position">9</property>
-                        <property name="name">Location Level</property>
+                        <property name="name">Location</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -215,6 +242,11 @@
                         <property name="name">Library</property>
                         <property name="dataType">string</property>
                     </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">EXPIRATION_DATE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
                 </list-property>
             </structure>
             <method name="beforeOpen"><![CDATA[deliverReport = new Packages.org.kuali.ole.OLEDeliverReportHelper();
@@ -226,6 +258,7 @@ if(dbVendor!=null){
 	}else if(dbVendor.equalsIgnoreCase("mysql")){
 	    this.queryText = this.queryText+" and (ODI.LOCATION REGEXP '"+params["Library"].value.join("|")+"' or ODH.LOCATION REGEXP '"+params["Library"].value.join("|")+"')";
 	    this.queryText = this.queryText+" and (ODPB.CRTE_DT_TIME between '"+params["From"].value+"' AND '"+params["To"].value+"')";
+	    this.queryText = this.queryText+" and (OPT.EXPIRATION_DATE between '"+params["Patron Exp From Date"].value+"' AND '"+params["Patron Exp To Date"].value+"')";
 	}
 }
 this.queryText = this.queryText+" and ODBT.DLVR_BORR_TYP_NM IN ('"+params["Patron Type"].value.join("','")+"')";]]></method>
@@ -302,6 +335,13 @@ this.queryText = this.queryText+" and ODBT.DLVR_BORR_TYP_NM IN ('"+params["Patro
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">EXPIRATION_DATE</property>
+                    <property name="nativeName">EXPIRATION_DATE</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select
 CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM)) as "Patron Name",
@@ -310,6 +350,7 @@ OPEV.ACTV_IND as "Patron Status",
 ODPB.CRTE_DT_TIME as "Accrued Fine Date",
 ODPBFT.PAY_GENERAL_NOTE as "Description",
 ODPBFT.BALANCE_AMT as "Outstanding Amount",
+OPT.EXPIRATION_DATE,
 ODPBFT.ITM_BARCODE as "Item Barcode",
 CASE WHEN ODI.LOCATION IS NOT NULL AND ODI.LOCATION != ' ' THEN ODI.LOCATION
 	WHEN ODH.LOCATION IS NOT NULL AND ODH.LOCATION != ' ' THEN ODH.LOCATION
@@ -324,6 +365,7 @@ from
 OLE_DLVR_PTRN_BILL_FEE_TYP_T ODPBFT,
 OLE_DLVR_PTRN_BILL_T ODPB,
 OLE_PTRN_ENTITY_V OPEV,
+OLE_PTRN_T OPT,
 OLE_DS_ITEM_T ODI,
 OLE_DS_HOLDINGS_T ODH,
 OLE_DS_BIB_INFO_T ODBI,
@@ -335,13 +377,17 @@ ODPBFT.PTRN_BILL_ID = ODPB.PTRN_BILL_ID
 and
 ODPB.OLE_PTRN_ID = OPEV.OLE_PTRN_ID
 and
+ODPBFT.ITM_BARCODE NOT IN ('')
+and
 ODI.BARCODE = ODPBFT.ITM_BARCODE
 and
 ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
 and
 ODBI.BIB_ID = ODH.BIB_ID
 and
-OPEV.PTRN_TYP_ID = ODBT.DLVR_BORR_TYP_ID]]></xml-property>
+OPEV.PTRN_TYP_ID = ODBT.DLVR_BORR_TYP_ID
+and
+OPT.OLE_PTRN_ID = OPEV.OLE_PTRN_ID]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Library" id="72">
             <list-property name="columnHints">
@@ -415,6 +461,332 @@ ODBT.DLVR_BORR_TYP_NM as "Patron Type"
 from
 OLE_DLVR_BORR_TYP_T ODBT]]></xml-property>
         </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="CashTransactioForEmptyBarcode" id="85">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))</property>
+                    <text-property name="displayName">CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))</text-property>
+                    <text-property name="heading">CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">OLE_PTRN_ID</property>
+                    <text-property name="displayName">OLE_PTRN_ID</text-property>
+                    <text-property name="heading">OLE_PTRN_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ACTV_IND</property>
+                    <text-property name="displayName">ACTV_IND</text-property>
+                    <text-property name="heading">ACTV_IND</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CRTE_DT_TIME</property>
+                    <text-property name="displayName">CRTE_DT_TIME</text-property>
+                    <text-property name="heading">CRTE_DT_TIME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PAY_GENERAL_NOTE</property>
+                    <text-property name="displayName">PAY_GENERAL_NOTE</text-property>
+                    <text-property name="heading">PAY_GENERAL_NOTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BALANCE_AMT</property>
+                    <text-property name="displayName">BALANCE_AMT</text-property>
+                    <text-property name="heading">BALANCE_AMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXPIRATION_DATE</property>
+                    <text-property name="displayName">EXPIRATION_DATE</text-property>
+                    <text-property name="heading">EXPIRATION_DATE</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">OLE_PTRN_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">ACTV_IND</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CRTE_DT_TIME</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">PAY_GENERAL_NOTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">BALANCE_AMT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">EXPIRATION_DATE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[deliverReport = new Packages.org.kuali.ole.OLEDeliverReportHelper();
+dbVendor = deliverReport.getDbVendor();
+if(dbVendor!=null){
+	if(dbVendor.equalsIgnoreCase("oracle")){
+		this.queryText = this.queryText+" and (trunc(ODPB.CRTE_DT_TIME) between to_date('"+params["From"].value+"', 'YYYY-MM-DD') and to_date('"+params["To"].value+"', 'YYYY-MM-DD'))";
+	}else if(dbVendor.equalsIgnoreCase("mysql")){
+	    this.queryText = this.queryText+" and (ODPB.CRTE_DT_TIME between '"+params["From"].value+"' AND '"+params["To"].value+"')";
+	    this.queryText = this.queryText+" and (OPT.EXPIRATION_DATE between '"+params["Patron Exp From Date"].value+"' AND '"+params["Patron Exp To Date"].value+"')";
+	}
+}
+this.queryText = this.queryText+" and ODBT.DLVR_BORR_TYP_NM IN ('"+params["Patron Type"].value.join("','")+"')";]]></method>
+            <property name="dataSource">CashTransactions</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))</property>
+                    <property name="nativeName">CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">OLE_PTRN_ID</property>
+                    <property name="nativeName">OLE_PTRN_ID</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">ACTV_IND</property>
+                    <property name="nativeName">ACTV_IND</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">CRTE_DT_TIME</property>
+                    <property name="nativeName">CRTE_DT_TIME</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">PAY_GENERAL_NOTE</property>
+                    <property name="nativeName">PAY_GENERAL_NOTE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">BALANCE_AMT</property>
+                    <property name="nativeName">BALANCE_AMT</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">EXPIRATION_DATE</property>
+                    <property name="nativeName">EXPIRATION_DATE</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select
+CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM)),
+ODPB.OLE_PTRN_ID,
+OPEV.ACTV_IND,
+ODPB.CRTE_DT_TIME,
+ODPBFT.PAY_GENERAL_NOTE,
+ODPBFT.BALANCE_AMT,
+OPT.EXPIRATION_DATE
+from
+OLE_DLVR_PTRN_BILL_FEE_TYP_T ODPBFT,
+OLE_DLVR_PTRN_BILL_T ODPB,
+OLE_PTRN_ENTITY_V OPEV,
+OLE_PTRN_T OPT,
+OLE_DLVR_BORR_TYP_T ODBT
+where
+ODPBFT.BALANCE_AMT > 0
+and
+ODPBFT.PTRN_BILL_ID = ODPB.PTRN_BILL_ID
+and
+ODPB.OLE_PTRN_ID = OPEV.OLE_PTRN_ID
+and
+ODPBFT.ITM_BARCODE IN ('')
+and
+OPEV.PTRN_TYP_ID = ODBT.DLVR_BORR_TYP_ID
+and
+OPT.OLE_PTRN_ID = OPEV.OLE_PTRN_ID
+]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>121</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))</design:label>
+            <design:formattingHints>
+              <design:displaySize>121</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>OLE_PTRN_ID</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>OLE_PTRN_ID</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>OLE_PTRN_ID</design:label>
+            <design:formattingHints>
+              <design:displaySize>40</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ACTV_IND</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>1</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ACTV_IND</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ACTV_IND</design:label>
+            <design:formattingHints>
+              <design:displaySize>1</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CRTE_DT_TIME</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CRTE_DT_TIME</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CRTE_DT_TIME</design:label>
+            <design:formattingHints>
+              <design:displaySize>19</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PAY_GENERAL_NOTE</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>500</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PAY_GENERAL_NOTE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PAY_GENERAL_NOTE</design:label>
+            <design:formattingHints>
+              <design:displaySize>500</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>BALANCE_AMT</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>4</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>BALANCE_AMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>BALANCE_AMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>12</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>EXPIRATION_DATE</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>EXPIRATION_DATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>EXPIRATION_DATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>19</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
     </data-sets>
     <styles>
         <style name="report" id="4">
@@ -448,6 +820,16 @@ OLE_DLVR_BORR_TYP_T ODBT]]></xml-property>
             <property name="borderTopColor">#CCCCCC</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="NewStyle" id="173">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
         </style>
     </styles>
     <page-setup>
@@ -510,8 +892,9 @@ OLE_DLVR_BORR_TYP_T ODBT]]></xml-property>
                 <structure>
                     <property name="name">Library</property>
                     <text-property name="displayName">Library</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["Library"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Location"]</expression>
                     <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
                 </structure>
                 <structure>
                     <property name="name">Item Title</property>
@@ -525,16 +908,27 @@ OLE_DLVR_BORR_TYP_T ODBT]]></xml-property>
                     <expression name="expression" type="javascript">dataSetRow["Accrued Fine Date"]</expression>
                     <property name="dataType">date-time</property>
                 </structure>
+                <structure>
+                    <property name="name">PTRN_EXP_DATE</property>
+                    <text-property name="displayName">PTRN_EXP_DATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["EXPIRATION_DATE"]</expression>
+                    <property name="dataType">date</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
+            <structure name="toc"/>
             <column id="42"/>
             <column id="43"/>
             <column id="44"/>
+            <column id="81"/>
             <column id="45"/>
-            <column id="46"/>
             <column id="47"/>
             <column id="48"/>
             <column id="49"/>
             <column id="50"/>
+            <column id="46">
+                <property name="repeat">1</property>
+            </column>
             <header>
                 <row id="12">
                     <cell id="13">
@@ -576,6 +970,19 @@ OLE_DLVR_BORR_TYP_T ODBT]]></xml-property>
                             <text-property name="text">Patron Status</text-property>
                         </label>
                     </cell>
+                    <cell id="79">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="82">
+                            <text-property name="text">Patron Expiration Date</text-property>
+                        </label>
+                    </cell>
                     <cell id="16">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -587,19 +994,6 @@ OLE_DLVR_BORR_TYP_T ODBT]]></xml-property>
                         <property name="borderTopWidth">thin</property>
                         <label id="70">
                             <text-property name="text">Accrued Fine Date</text-property>
-                        </label>
-                    </cell>
-                    <cell id="17">
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                        <label id="60">
-                            <text-property name="text">Description</text-property>
                         </label>
                     </cell>
                     <cell id="18">
@@ -654,6 +1048,19 @@ OLE_DLVR_BORR_TYP_T ODBT]]></xml-property>
                             <text-property name="text">Item Title</text-property>
                         </label>
                     </cell>
+                    <cell id="17">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="60">
+                            <text-property name="text">Bil Notes</text-property>
+                        </label>
+                    </cell>
                 </row>
             </header>
             <detail>
@@ -697,6 +1104,19 @@ OLE_DLVR_BORR_TYP_T ODBT]]></xml-property>
                             <property name="resultSetColumn">Patron Status</property>
                         </data>
                     </cell>
+                    <cell id="80">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="83">
+                            <property name="resultSetColumn">PTRN_EXP_DATE</property>
+                        </data>
+                    </cell>
                     <cell id="26">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -708,19 +1128,6 @@ OLE_DLVR_BORR_TYP_T ODBT]]></xml-property>
                         <property name="borderTopWidth">thin</property>
                         <data id="71">
                             <property name="resultSetColumn">Accrued Fine Date</property>
-                        </data>
-                    </cell>
-                    <cell id="27">
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                        <data id="61">
-                            <property name="resultSetColumn">Description</property>
                         </data>
                     </cell>
                     <cell id="28">
@@ -775,9 +1182,227 @@ OLE_DLVR_BORR_TYP_T ODBT]]></xml-property>
                             <property name="resultSetColumn">Item Title</property>
                         </data>
                     </cell>
+                    <cell id="27">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="61">
+                            <property name="resultSetColumn">Description</property>
+                        </data>
+                    </cell>
                 </row>
             </detail>
         </table>
         <label id="51"/>
+        <label id="86"/>
+        <label id="87">
+            <text-property name="text"></text-property>
+        </label>
+        <table id="118">
+            <property name="style">NewStyle</property>
+            <property name="borderBottomStyle">none</property>
+            <property name="borderLeftStyle">none</property>
+            <property name="borderRightStyle">none</property>
+            <property name="borderTopStyle">none</property>
+            <property name="dataSet">CashTransactioForEmptyBarcode</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))</property>
+                    <text-property name="displayName">CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">OLE_PTRN_ID</property>
+                    <text-property name="displayName">OLE_PTRN_ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["OLE_PTRN_ID"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ACTV_IND</property>
+                    <text-property name="displayName">ACTV_IND</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ACTV_IND"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CRTE_DT_TIME</property>
+                    <text-property name="displayName">CRTE_DT_TIME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CRTE_DT_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">PAY_GENERAL_NOTE</property>
+                    <text-property name="displayName">PAY_GENERAL_NOTE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PAY_GENERAL_NOTE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BALANCE_AMT</property>
+                    <text-property name="displayName">BALANCE_AMT</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BALANCE_AMT"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">EXPIRATION_DATE</property>
+                    <text-property name="displayName">EXPIRATION_DATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["EXPIRATION_DATE"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron_Name</property>
+                    <text-property name="displayName">Patron_Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM))"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron_Id</property>
+                    <text-property name="displayName">Patron_Id</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["OLE_PTRN_ID"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron_Status</property>
+                    <text-property name="displayName">Patron_Status</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ACTV_IND"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron_Exp_date</property>
+                    <text-property name="displayName">Patron_Exp_date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["EXPIRATION_DATE"]</expression>
+                    <property name="dataType">date</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron_Acc_Fine_date</property>
+                    <text-property name="displayName">Patron_Acc_Fine_date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CRTE_DT_TIME"]</expression>
+                    <property name="dataType">date</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Ptrn_Description</property>
+                    <text-property name="displayName">Ptrn_Description</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PAY_GENERAL_NOTE"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Ptrn_Out_Amt</property>
+                    <text-property name="displayName">Ptrn_Out_Amt</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BALANCE_AMT"]</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <column id="143">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="144">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="145">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="146">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="147">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="149">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="148">
+                <property name="repeat">1</property>
+                <property name="style">NewStyle</property>
+            </column>
+            <header>
+                <row id="119">
+                    <cell id="120">
+                        <label id="157">
+                            <text-property name="text">Patron Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="121">
+                        <label id="158">
+                            <text-property name="text">Patron Id</text-property>
+                        </label>
+                    </cell>
+                    <cell id="122">
+                        <label id="159">
+                            <text-property name="text">Patron Status</text-property>
+                        </label>
+                    </cell>
+                    <cell id="123">
+                        <label id="160">
+                            <text-property name="text">Patron Expiration Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="124">
+                        <label id="161">
+                            <text-property name="text">Accrued Fine Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="126">
+                        <label id="163">
+                            <text-property name="text">Outstanding Amount</text-property>
+                        </label>
+                    </cell>
+                    <cell id="125">
+                        <label id="162">
+                            <text-property name="text">Bill Notes</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="127">
+                    <cell id="128">
+                        <data id="164">
+                            <property name="resultSetColumn">Patron_Name</property>
+                        </data>
+                    </cell>
+                    <cell id="129">
+                        <data id="166">
+                            <property name="resultSetColumn">Patron_Id</property>
+                        </data>
+                    </cell>
+                    <cell id="130">
+                        <data id="168">
+                            <property name="resultSetColumn">Patron_Status</property>
+                        </data>
+                    </cell>
+                    <cell id="131">
+                        <data id="169">
+                            <property name="resultSetColumn">Patron_Exp_date</property>
+                        </data>
+                    </cell>
+                    <cell id="132">
+                        <data id="170">
+                            <property name="resultSetColumn">Patron_Acc_Fine_date</property>
+                        </data>
+                    </cell>
+                    <cell id="134">
+                        <data id="172">
+                            <property name="resultSetColumn">Ptrn_Out_Amt</property>
+                        </data>
+                    </cell>
+                    <cell id="133">
+                        <data id="171">
+                            <property name="resultSetColumn">Ptrn_Description</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
     </body>
 </report>
