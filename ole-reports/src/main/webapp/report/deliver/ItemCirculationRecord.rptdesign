@@ -101,6 +101,12 @@
                     <text-property name="displayName">OPERARTOR_ID</text-property>
                     <text-property name="heading">OPERARTOR_ID</text-property>
                 </structure>
+                <structure>
+                    <property name="columnName">HOLD_EXP_DATE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">HOLD_EXP_DATE</text-property>
+                    <text-property name="heading">HOLD_EXP_DATE</text-property>
+                </structure>
             </list-property>
             <list-property name="parameters"/>
             <structure name="cachedMetaData">
@@ -149,6 +155,11 @@
                         <property name="position">9</property>
                         <property name="name">OPERARTOR_ID</property>
                         <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">HOLD_EXP_DATE</property>
+                        <property name="dataType">date</property>
                     </structure>
                 </list-property>
             </structure>
@@ -218,6 +229,13 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">HOLD_EXP_DATE</property>
+                    <property name="nativeName">HOLD_EXP_DATE</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select
 B.TITLE,
@@ -233,7 +251,8 @@ IT.DUE_DATE_TIME,
  WHERE ENTITY_ID = IT.CURRENT_BORROWER
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL)) AS PATRON_NAME,
 (SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
- AND ITM_ID = IT.BARCODE) AS OPERARTOR_ID
+ AND ITM_ID = IT.BARCODE) AS OPERARTOR_ID,
+ (SELECT DR.HOLD_EXP_DATE FROM OLE_DLVR_RQST_T DR WHERE IT.BARCODE=DR.ITM_ID) AS HOLD_EXP_DATE
 from
 OLE_DS_ITEM_T IT,
 OLE_DS_HOLDINGS_T H,
@@ -244,7 +263,8 @@ H.HOLDINGS_ID = IT.HOLDINGS_ID
 AND
 H.BIB_ID = B.BIB_ID
 AND
-ITS.ITEM_AVAIL_STAT_ID = IT.ITEM_STATUS_ID]]></xml-property>
+ITS.ITEM_AVAIL_STAT_ID = IT.ITEM_STATUS_ID
+]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1606,6 +1626,13 @@ WHERE
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
+                <structure>
+                    <property name="name">Hold Exp Date</property>
+                    <text-property name="displayName">Hold Exp Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["HOLD_EXP_DATE"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <column id="39"/>
             <column id="40"/>
@@ -1781,6 +1808,35 @@ WHERE
                         <property name="borderTopWidth">thin</property>
                         <data id="242">
                             <property name="resultSetColumn">Current Due Date</property>
+                        </data>
+                    </cell>
+                </row>
+                <row id="299">
+                    <property name="style">NewStyle</property>
+                    <cell id="300">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="302">
+                            <text-property name="text">Hold Expiration Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="301">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="303">
+                            <property name="resultSetColumn">Hold Exp Date</property>
                         </data>
                     </cell>
                 </row>

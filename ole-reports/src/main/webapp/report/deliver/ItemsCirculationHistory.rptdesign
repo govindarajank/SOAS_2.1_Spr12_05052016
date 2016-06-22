@@ -1,0 +1,2154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.4.1.v201408290142 Build &lt;4.4.1.v20140916-1320></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="Date Created To" id="514">
+            <property name="valueType">static</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="Date Created From" id="513">
+            <property name="valueType">static</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="Item Title" id="473">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="Call Number" id="474">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="ItemsCirculationHistory" id="462">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost/ole</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cm9vdA==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ItemsDetails" id="463">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">TITLE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Item Title</text-property>
+                    <text-property name="heading">Item Title</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BARCODE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Barcode</text-property>
+                    <text-property name="heading">Barcode</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CALL_NUMBER</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <text-property name="heading">Call Number</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">LOCATION</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Location</text-property>
+                    <text-property name="heading">Location</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ITEM_AVAIL_STAT_CD</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Item Status</text-property>
+                    <text-property name="heading">Item Status</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DUE_DATE_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Due Date</text-property>
+                    <text-property name="heading">Due Date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Patron Barcode</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Patron Barcode</text-property>
+                    <text-property name="heading">Patron Barcode</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Patron Name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Patron Name</text-property>
+                    <text-property name="heading">Patron Name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Operator Id</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Operator Id</text-property>
+                    <text-property name="heading">Operator Id</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">TITLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">BARCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CALL_NUMBER</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">LOCATION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">ITEM_AVAIL_STAT_CD</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">DUE_DATE_TIME</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">Patron Barcode</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">Patron Name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">Operator Id</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " AND IT.DATE_CREATED  BETWEEN '"+ params["Date Created From"].value +"' AND '"+ params["Date Created To"].value +"'";
+if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value!=null){
+	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
+	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
+}else if(params["Item Title"].value ==null &amp;&amp; params["Call Number"].value!=null){
+	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
+}else if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value==null){
+	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
+}else{
+	this.queryText = this.queryText + "";
+}]]></method>
+            <property name="dataSource">ItemsCirculationHistory</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">TITLE</property>
+                    <property name="nativeName">TITLE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">BARCODE</property>
+                    <property name="nativeName">BARCODE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CALL_NUMBER</property>
+                    <property name="nativeName">CALL_NUMBER</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">LOCATION</property>
+                    <property name="nativeName">LOCATION</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">ITEM_AVAIL_STAT_CD</property>
+                    <property name="nativeName">ITEM_AVAIL_STAT_CD</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">DUE_DATE_TIME</property>
+                    <property name="nativeName">DUE_DATE_TIME</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">Patron Barcode</property>
+                    <property name="nativeName">Patron Barcode</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">Patron Name</property>
+                    <property name="nativeName">Patron Name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">Operator Id</property>
+                    <property name="nativeName">Operator Id</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select
+B.TITLE as "Item Title",
+IT.BARCODE as "Barcode",
+IT.CALL_NUMBER as "Call Number",
+IT.LOCATION as "Location",
+ITS.ITEM_AVAIL_STAT_CD as "Item Status",
+IT.DUE_DATE_TIME as "Due Date",
+(SELECT BARCODE FROM OLE_PTRN_T
+ WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
+ AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL)) AS "Patron Barcode",
+(SELECT CONCAT(FIRST_NM, " ", LAST_NM) FROM KRIM_ENTITY_NM_T
+ WHERE ENTITY_ID = IT.CURRENT_BORROWER
+ AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL)) AS "Patron Name",
+(SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
+ AND ITM_ID = IT.BARCODE) as "Operator Id"
+from
+OLE_DS_ITEM_T IT,
+OLE_DS_HOLDINGS_T H,
+OLE_DS_BIB_INFO_T B,
+OLE_DLVR_ITEM_AVAIL_STAT_T ITS
+WHERE
+H.HOLDINGS_ID = IT.HOLDINGS_ID
+AND
+H.BIB_ID = B.BIB_ID
+AND
+ITS.ITEM_AVAIL_STAT_ID = IT.ITEM_STATUS_ID
+
+]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>TITLE</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>4000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>TITLE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>TITLE</design:label>
+            <design:formattingHints>
+              <design:displaySize>4000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>BARCODE</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>30</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>BARCODE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>BARCODE</design:label>
+            <design:formattingHints>
+              <design:displaySize>30</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CALL_NUMBER</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>100</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CALL_NUMBER</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CALL_NUMBER</design:label>
+            <design:formattingHints>
+              <design:displaySize>100</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>LOCATION</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>600</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>LOCATION</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>LOCATION</design:label>
+            <design:formattingHints>
+              <design:displaySize>600</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ITEM_AVAIL_STAT_CD</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ITEM_AVAIL_STAT_CD</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ITEM_AVAIL_STAT_CD</design:label>
+            <design:formattingHints>
+              <design:displaySize>40</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DUE_DATE_TIME</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DUE_DATE_TIME</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DUE_DATE_TIME</design:label>
+            <design:formattingHints>
+              <design:displaySize>19</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PATRON_BARCODE</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>100</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PATRON_BARCODE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PATRON_BARCODE</design:label>
+            <design:formattingHints>
+              <design:displaySize>100</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PATRON_NAME</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>121</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PATRON_NAME</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PATRON_NAME</design:label>
+            <design:formattingHints>
+              <design:displaySize>121</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>OPERARTOR_ID</design:name>
+              <design:position>9</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>OPERARTOR_ID</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>OPERARTOR_ID</design:label>
+            <design:formattingHints>
+              <design:displaySize>40</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ItemsRequestDetails" id="464">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Patron Name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Patron Name</text-property>
+                    <text-property name="heading">Patron Name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PTRN_Q_POS</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Queue Position</text-property>
+                    <text-property name="heading">Queue Position</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">OLE_PTRN_BARCD</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Patron Barcode</text-property>
+                    <text-property name="heading">Patron Barcode</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TITLE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Item Title</text-property>
+                    <text-property name="heading">Item Title</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BARCODE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Item Barcode</text-property>
+                    <text-property name="heading">Item Barcode</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CALL_NUMBER</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <text-property name="heading">Call Number</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">LOCATION</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Location</text-property>
+                    <text-property name="heading">Location</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ITEM_AVAIL_STAT_CD</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Item Status</text-property>
+                    <text-property name="heading">Item Status</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CRTE_DT_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Created Date</text-property>
+                    <text-property name="heading">Created Date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">RQST_EXPIR_DT_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Request Expiration Date</text-property>
+                    <text-property name="heading">Request Expiration Date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">HOLD_EXP_DATE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Hold Expiration Date</text-property>
+                    <text-property name="heading">Hold Expiration Date</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Patron Name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">PTRN_Q_POS</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">OLE_PTRN_BARCD</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">TITLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">BARCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">CALL_NUMBER</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">LOCATION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">ITEM_AVAIL_STAT_CD</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">CRTE_DT_TIME</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">RQST_EXPIR_DT_TIME</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">HOLD_EXP_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " AND IT.DATE_CREATED  BETWEEN '"+ params["Date Created From"].value +"' AND '"+ params["Date Created To"].value +"'";
+if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value!=null){
+	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
+	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
+}else if(params["Item Title"].value ==null &amp;&amp; params["Call Number"].value!=null){
+	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
+}else if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value==null){
+	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
+}else{
+	this.queryText = this.queryText + "";
+}]]></method>
+            <property name="dataSource">ItemsCirculationHistory</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Patron Name</property>
+                    <property name="nativeName">Patron Name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">PTRN_Q_POS</property>
+                    <property name="nativeName">PTRN_Q_POS</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">OLE_PTRN_BARCD</property>
+                    <property name="nativeName">OLE_PTRN_BARCD</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">TITLE</property>
+                    <property name="nativeName">TITLE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">BARCODE</property>
+                    <property name="nativeName">BARCODE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">CALL_NUMBER</property>
+                    <property name="nativeName">CALL_NUMBER</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">LOCATION</property>
+                    <property name="nativeName">LOCATION</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">ITEM_AVAIL_STAT_CD</property>
+                    <property name="nativeName">ITEM_AVAIL_STAT_CD</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">CRTE_DT_TIME</property>
+                    <property name="nativeName">CRTE_DT_TIME</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">RQST_EXPIR_DT_TIME</property>
+                    <property name="nativeName">RQST_EXPIR_DT_TIME</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">HOLD_EXP_DATE</property>
+                    <property name="nativeName">HOLD_EXP_DATE</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT
+	CONCAT(NM.FIRST_NM," ",NM.LAST_NM) as "Patron Name",
+	DR.PTRN_Q_POS as "Queue Position",
+    DR.OLE_PTRN_BARCD as "Patron Barcode",
+    B.TITLE as "Item Title",
+    IT.BARCODE as "Item Barcode",
+    IT.CALL_NUMBER as "Call Number",
+    IT.LOCATION as "Location", 
+    ITS.ITEM_AVAIL_STAT_CD as "Item Status",
+    DR.CRTE_DT_TIME as "Created Date",
+	DR.RQST_EXPIR_DT_TIME as "Request Expiration Date",
+	DR.HOLD_EXP_DATE as "Hold Expiration Date"
+FROM
+	OLE_DLVR_RQST_T DR,
+    OLE_DS_ITEM_T IT,
+    OLE_DS_BIB_INFO_T B,
+    OLE_DS_HOLDINGS_T H,
+    OLE_DLVR_ITEM_AVAIL_STAT_T ITS,
+	KRIM_ENTITY_NM_T NM
+WHERE
+	NM.ENTITY_ID=DR.OLE_PTRN_ID
+    AND
+    IT.BARCODE=DR.ITM_ID
+    AND
+    H.HOLDINGS_ID = IT.HOLDINGS_ID
+    AND
+    B.BIB_ID = H.BIB_ID
+    AND
+    IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID
+  ]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ItemsCirculationDetails" id="465">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">TITLE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Item Title</text-property>
+                    <text-property name="heading">Item Title</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BARCODE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Item Barcode</text-property>
+                    <text-property name="heading">Item Barcode</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CALL_NUMBER</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <text-property name="heading">Call Number</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">LOCATION</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Location</text-property>
+                    <text-property name="heading">Location</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ITEM_AVAIL_STAT_CD</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Item Status</text-property>
+                    <text-property name="heading">Item Status</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Patron Name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Patron Name</text-property>
+                    <text-property name="heading">Patron Name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BARCODE_7</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Patron Barcode</text-property>
+                    <text-property name="heading">Patron Barcode</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CRTE_DT_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Created Date</text-property>
+                    <text-property name="heading">Created Date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DUE_DT_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Due Date</text-property>
+                    <text-property name="heading">Due Date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CHECK_IN_DT_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Return Date</text-property>
+                    <text-property name="heading">Return Date</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">TITLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">BARCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CALL_NUMBER</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">LOCATION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">ITEM_AVAIL_STAT_CD</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">Patron Name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">BARCODE_7</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CRTE_DT_TIME</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">DUE_DT_TIME</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">CHECK_IN_DT_TIME</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " AND IT.DATE_CREATED  BETWEEN '"+ params["Date Created From"].value +"' AND '"+ params["Date Created To"].value +"'";
+if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value!=null){
+	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
+	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
+}else if(params["Item Title"].value ==null &amp;&amp; params["Call Number"].value!=null){
+	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
+}else if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value==null){
+	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
+}else{
+	this.queryText = this.queryText + "";
+}
+
+this.queryText = this.queryText + " ORDER BY ODCR.CRTE_DT_TIME DESC";]]></method>
+            <property name="dataSource">ItemsCirculationHistory</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">TITLE</property>
+                    <property name="nativeName">TITLE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">BARCODE</property>
+                    <property name="nativeName">BARCODE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CALL_NUMBER</property>
+                    <property name="nativeName">CALL_NUMBER</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">LOCATION</property>
+                    <property name="nativeName">LOCATION</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">ITEM_AVAIL_STAT_CD</property>
+                    <property name="nativeName">ITEM_AVAIL_STAT_CD</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">Patron Name</property>
+                    <property name="nativeName">Patron Name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">BARCODE_7</property>
+                    <property name="nativeName">BARCODE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">CRTE_DT_TIME</property>
+                    <property name="nativeName">CRTE_DT_TIME</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">DUE_DT_TIME</property>
+                    <property name="nativeName">DUE_DT_TIME</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">CHECK_IN_DT_TIME</property>
+                    <property name="nativeName">CHECK_IN_DT_TIME</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT
+B.TITLE as "Item Title",
+IT.BARCODE as "Item Barcode",
+IT.CALL_NUMBER as "Call Number",
+IT.LOCATION as "Location",
+ITS.ITEM_AVAIL_STAT_CD as "Item Status",
+CONCAT(NM.FIRST_NM ," ", NM.LAST_NM) as "Patron Name",
+P.BARCODE as "Patron Barcode",
+ODCR.CRTE_DT_TIME as "Created Date",
+ODCR.DUE_DT_TIME as "Due Date",
+ODCR.CHECK_IN_DT_TIME as "Return Date"
+FROM
+OLE_DLVR_CIRC_RECORD ODCR,
+OLE_DS_ITEM_T IT,
+OLE_PTRN_T P,
+KRIM_ENTITY_NM_T NM,
+OLE_DS_BIB_INFO_T B,
+OLE_DS_HOLDINGS_T H,
+OLE_DLVR_ITEM_AVAIL_STAT_T ITS
+WHERE
+IT.BARCODE=ODCR.ITM_ID
+AND
+P.OLE_PTRN_ID = NM.ENTITY_ID
+AND
+P.OLE_PTRN_ID = ODCR.OLE_PTRN_ID
+AND
+H.HOLDINGS_ID = IT.HOLDINGS_ID
+AND
+B.BIB_ID = H.BIB_ID
+AND
+IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>TITLE</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>4000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Item Title</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Item Title</design:label>
+            <design:formattingHints>
+              <design:displaySize>4000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>BARCODE</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>30</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Item Barcode</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Item Barcode</design:label>
+            <design:formattingHints>
+              <design:displaySize>30</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CALL_NUMBER</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>100</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Call Number</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Call Number</design:label>
+            <design:formattingHints>
+              <design:displaySize>100</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>LOCATION</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>600</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Location</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Location</design:label>
+            <design:formattingHints>
+              <design:displaySize>600</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ITEM_AVAIL_STAT_CD</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Item Status</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Item Status</design:label>
+            <design:formattingHints>
+              <design:displaySize>40</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>Patron Name</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>121</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Patron Name</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Patron Name</design:label>
+            <design:formattingHints>
+              <design:displaySize>121</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>BARCODE</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>100</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Patron Barcode</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Patron Barcode</design:label>
+            <design:formattingHints>
+              <design:displaySize>100</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CRTE_DT_TIME</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Created Date</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Created Date</design:label>
+            <design:formattingHints>
+              <design:displaySize>19</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DUE_DT_TIME</design:name>
+              <design:position>9</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Due Date</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Due Date</design:label>
+            <design:formattingHints>
+              <design:displaySize>19</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CHECK_IN_DT_TIME</design:name>
+              <design:position>10</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Return Date</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Return Date</design:label>
+            <design:formattingHints>
+              <design:displaySize>19</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="NewStyle" id="510">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+        <style name="NewStyle1" id="511">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+        <style name="NewStyle2" id="512">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="297">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <text-property name="text">Item Details</text-property>
+        </label>
+        <label id="298">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <text-property name="text"></text-property>
+        </label>
+        <table id="299">
+            <property name="dataSet">ItemsDetails</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">TITLE</property>
+                    <text-property name="displayName">Item Title</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BARCODE</property>
+                    <text-property name="displayName">Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BARCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CALL_NUMBER</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LOCATION</property>
+                    <text-property name="displayName">Location</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LOCATION"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ITEM_AVAIL_STAT_CD</property>
+                    <text-property name="displayName">Item Status</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ITEM_AVAIL_STAT_CD"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DUE_DATE_TIME</property>
+                    <text-property name="displayName">Due Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DUE_DATE_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron Barcode</property>
+                    <text-property name="displayName">Patron Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Barcode"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron Name</property>
+                    <text-property name="displayName">Patron Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Operator Id</property>
+                    <text-property name="displayName">Operator Id</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Operator Id"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Item Title</property>
+                    <text-property name="displayName">Item Title</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Item Barcode</property>
+                    <text-property name="displayName">Item Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BARCODE"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Call Number</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Location</property>
+                    <text-property name="displayName">Location</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LOCATION"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Item Status</property>
+                    <text-property name="displayName">Item Status</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ITEM_AVAIL_STAT_CD"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Due Date</property>
+                    <text-property name="displayName">Due Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DUE_DATE_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Current Borrower</property>
+                    <text-property name="displayName">Current Borrower</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Barcode"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Borrower Name</property>
+                    <text-property name="displayName">Borrower Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Name"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Oprtr Id</property>
+                    <text-property name="displayName">Oprtr Id</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Operator Id"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <column id="330">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="331">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="332">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="333">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="334">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="335">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="336">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="337">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="338">
+                <property name="style">NewStyle</property>
+            </column>
+            <header>
+                <row id="300">
+                    <cell id="301">
+                        <label id="433">
+                            <text-property name="text">Item Title</text-property>
+                        </label>
+                    </cell>
+                    <cell id="302">
+                        <label id="434">
+                            <text-property name="text">Barcode</text-property>
+                        </label>
+                    </cell>
+                    <cell id="303">
+                        <label id="435">
+                            <text-property name="text">Call Number</text-property>
+                        </label>
+                    </cell>
+                    <cell id="304">
+                        <label id="436">
+                            <text-property name="text">Location</text-property>
+                        </label>
+                    </cell>
+                    <cell id="305">
+                        <label id="437">
+                            <text-property name="text">Item Status</text-property>
+                        </label>
+                    </cell>
+                    <cell id="306">
+                        <label id="438">
+                            <text-property name="text">Due Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="307">
+                        <label id="439">
+                            <text-property name="text">Current Borrower</text-property>
+                        </label>
+                    </cell>
+                    <cell id="308">
+                        <label id="440">
+                            <text-property name="text">Borrower Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="309">
+                        <label id="441">
+                            <text-property name="text">Operator Id</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="310">
+                    <cell id="311">
+                        <data id="475">
+                            <property name="resultSetColumn">Item Title</property>
+                        </data>
+                    </cell>
+                    <cell id="312">
+                        <data id="476">
+                            <property name="resultSetColumn">Item Barcode</property>
+                        </data>
+                    </cell>
+                    <cell id="313">
+                        <data id="477">
+                            <property name="resultSetColumn">Call Number</property>
+                        </data>
+                    </cell>
+                    <cell id="314">
+                        <data id="478">
+                            <property name="resultSetColumn">Location</property>
+                        </data>
+                    </cell>
+                    <cell id="315">
+                        <data id="479">
+                            <property name="resultSetColumn">Item Status</property>
+                        </data>
+                    </cell>
+                    <cell id="316">
+                        <data id="480">
+                            <property name="resultSetColumn">Due Date</property>
+                        </data>
+                    </cell>
+                    <cell id="317">
+                        <data id="481">
+                            <property name="resultSetColumn">Current Borrower</property>
+                        </data>
+                    </cell>
+                    <cell id="318">
+                        <data id="482">
+                            <property name="resultSetColumn">Borrower Name</property>
+                        </data>
+                    </cell>
+                    <cell id="319">
+                        <data id="483">
+                            <property name="resultSetColumn">Oprtr Id</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+        <label id="339">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <text-property name="text"></text-property>
+        </label>
+        <label id="340">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <text-property name="text">Request Details</text-property>
+        </label>
+        <label id="341">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <text-property name="text"></text-property>
+        </label>
+        <table id="342">
+            <property name="style">NewStyle1</property>
+            <property name="dataSet">ItemsRequestDetails</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Patron Name</property>
+                    <text-property name="displayName">Patron Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PTRN_Q_POS</property>
+                    <text-property name="displayName">Queue Position</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PTRN_Q_POS"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">OLE_PTRN_BARCD</property>
+                    <text-property name="displayName">Patron Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["OLE_PTRN_BARCD"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">TITLE</property>
+                    <text-property name="displayName">Item Title</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BARCODE</property>
+                    <text-property name="displayName">Item Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BARCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CALL_NUMBER</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LOCATION</property>
+                    <text-property name="displayName">Location</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LOCATION"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ITEM_AVAIL_STAT_CD</property>
+                    <text-property name="displayName">Item Status</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ITEM_AVAIL_STAT_CD"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CRTE_DT_TIME</property>
+                    <text-property name="displayName">Created Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CRTE_DT_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">RQST_EXPIR_DT_TIME</property>
+                    <text-property name="displayName">Request Expiration Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["RQST_EXPIR_DT_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">HOLD_EXP_DATE</property>
+                    <text-property name="displayName">Hold Expiration Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["HOLD_EXP_DATE"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">Req Name</property>
+                    <text-property name="displayName">Req Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Name"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Que Pos</property>
+                    <text-property name="displayName">Que Pos</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PTRN_Q_POS"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Req Barcode</property>
+                    <text-property name="displayName">Req Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["OLE_PTRN_BARCD"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Itm Title</property>
+                    <text-property name="displayName">Itm Title</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Itm Barcode</property>
+                    <text-property name="displayName">Itm Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BARCODE"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Call Number</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Location</property>
+                    <text-property name="displayName">Location</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LOCATION"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Itm Status</property>
+                    <text-property name="displayName">Itm Status</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ITEM_AVAIL_STAT_CD"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Created Dt</property>
+                    <text-property name="displayName">Created Dt</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CRTE_DT_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Req Exp Date</property>
+                    <text-property name="displayName">Req Exp Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["RQST_EXPIR_DT_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Hold Exp Date</property>
+                    <text-property name="displayName">Hold Exp Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["HOLD_EXP_DATE"]</expression>
+                    <property name="dataType">date-time</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <column id="376">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="377">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="378">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="379">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="380">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="381">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="382">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="383">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="384">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="385">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="471">
+                <property name="style">NewStyle</property>
+            </column>
+            <header>
+                <row id="343">
+                    <cell id="344">
+                        <label id="442">
+                            <text-property name="text">Requestor Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="345">
+                        <label id="443">
+                            <text-property name="text">Queue Position</text-property>
+                        </label>
+                    </cell>
+                    <cell id="346">
+                        <label id="444">
+                            <text-property name="text">Requestor Barcode</text-property>
+                        </label>
+                    </cell>
+                    <cell id="347">
+                        <label id="445">
+                            <text-property name="text">Item Title</text-property>
+                        </label>
+                    </cell>
+                    <cell id="348">
+                        <label id="446">
+                            <text-property name="text">Item Barcode</text-property>
+                        </label>
+                    </cell>
+                    <cell id="349">
+                        <label id="447">
+                            <text-property name="text">Call Number</text-property>
+                        </label>
+                    </cell>
+                    <cell id="350">
+                        <label id="448">
+                            <text-property name="text">Location</text-property>
+                        </label>
+                    </cell>
+                    <cell id="351">
+                        <label id="449">
+                            <text-property name="text">Item Status</text-property>
+                        </label>
+                    </cell>
+                    <cell id="352">
+                        <label id="450">
+                            <text-property name="text">Created Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="353">
+                        <label id="451">
+                            <text-property name="text">Request Expiration Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="469">
+                        <label id="472">
+                            <text-property name="text">Hold Expiration Date</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="354">
+                    <cell id="355">
+                        <data id="485">
+                            <property name="resultSetColumn">Req Name</property>
+                        </data>
+                    </cell>
+                    <cell id="356">
+                        <data id="486">
+                            <property name="resultSetColumn">Que Pos</property>
+                        </data>
+                    </cell>
+                    <cell id="357">
+                        <data id="487">
+                            <property name="resultSetColumn">Req Barcode</property>
+                        </data>
+                    </cell>
+                    <cell id="358">
+                        <data id="488">
+                            <property name="resultSetColumn">Itm Title</property>
+                        </data>
+                    </cell>
+                    <cell id="359">
+                        <data id="489">
+                            <property name="resultSetColumn">Itm Barcode</property>
+                        </data>
+                    </cell>
+                    <cell id="360">
+                        <data id="490">
+                            <property name="resultSetColumn">Call Number</property>
+                        </data>
+                    </cell>
+                    <cell id="361">
+                        <data id="491">
+                            <property name="resultSetColumn">Location</property>
+                        </data>
+                    </cell>
+                    <cell id="362">
+                        <data id="492">
+                            <property name="resultSetColumn">Itm Status</property>
+                        </data>
+                    </cell>
+                    <cell id="363">
+                        <data id="493">
+                            <property name="resultSetColumn">Created Dt</property>
+                        </data>
+                    </cell>
+                    <cell id="364">
+                        <data id="494">
+                            <property name="resultSetColumn">Req Exp Date</property>
+                        </data>
+                    </cell>
+                    <cell id="470">
+                        <data id="495">
+                            <property name="resultSetColumn">Hold Exp Date</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+        <label id="386">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <text-property name="text"></text-property>
+        </label>
+        <label id="387">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <text-property name="text">Items Circulation History</text-property>
+        </label>
+        <label id="388">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <text-property name="text"></text-property>
+        </label>
+        <table id="389">
+            <property name="style">NewStyle2</property>
+            <property name="dataSet">ItemsCirculationDetails</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">TITLE</property>
+                    <text-property name="displayName">Item Title</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BARCODE</property>
+                    <text-property name="displayName">Item Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BARCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CALL_NUMBER</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LOCATION</property>
+                    <text-property name="displayName">Location</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LOCATION"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ITEM_AVAIL_STAT_CD</property>
+                    <text-property name="displayName">Item Status</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ITEM_AVAIL_STAT_CD"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron Name</property>
+                    <text-property name="displayName">Patron Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BARCODE_7</property>
+                    <text-property name="displayName">Patron Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BARCODE_7"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CRTE_DT_TIME</property>
+                    <text-property name="displayName">Created Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CRTE_DT_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">DUE_DT_TIME</property>
+                    <text-property name="displayName">Due Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DUE_DT_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">CHECK_IN_DT_TIME</property>
+                    <text-property name="displayName">Return Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CHECK_IN_DT_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">Title</property>
+                    <text-property name="displayName">Title</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Barcode</property>
+                    <text-property name="displayName">Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BARCODE"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Call Numb</property>
+                    <text-property name="displayName">Call Numb</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Itm Stat</property>
+                    <text-property name="displayName">Itm Stat</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ITEM_AVAIL_STAT_CD"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Location</property>
+                    <text-property name="displayName">Location</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LOCATION"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron Nm</property>
+                    <text-property name="displayName">Patron Nm</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Name"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron Barcode</property>
+                    <text-property name="displayName">Patron Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BARCODE_7"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Created Dt</property>
+                    <text-property name="displayName">Created Dt</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CRTE_DT_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Due Date</property>
+                    <text-property name="displayName">Due Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DUE_DT_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Return Date</property>
+                    <text-property name="displayName">Return Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CHECK_IN_DT_TIME"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <column id="423">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="424">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="425">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="502">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="427">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="428">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="429">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="430">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="431">
+                <property name="style">NewStyle</property>
+            </column>
+            <column id="432">
+                <property name="style">NewStyle</property>
+            </column>
+            <header>
+                <row id="390">
+                    <cell id="391">
+                        <label id="452">
+                            <text-property name="text">Item Title</text-property>
+                        </label>
+                    </cell>
+                    <cell id="392">
+                        <label id="453">
+                            <text-property name="text">Item Barcode</text-property>
+                        </label>
+                    </cell>
+                    <cell id="393">
+                        <label id="454">
+                            <text-property name="text">Call Number</text-property>
+                        </label>
+                    </cell>
+                    <cell id="500">
+                        <label id="503">
+                            <text-property name="text">Location</text-property>
+                        </label>
+                    </cell>
+                    <cell id="395">
+                        <label id="456">
+                            <text-property name="text">Item Status</text-property>
+                        </label>
+                    </cell>
+                    <cell id="396">
+                        <label id="457">
+                            <text-property name="text">Patron Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="397">
+                        <label id="458">
+                            <text-property name="text">Patron Barcode</text-property>
+                        </label>
+                    </cell>
+                    <cell id="398">
+                        <label id="459">
+                            <text-property name="text">Created Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="399">
+                        <label id="460">
+                            <text-property name="text">Due Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="400">
+                        <label id="461">
+                            <text-property name="text">Return Date</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="401">
+                    <cell id="402">
+                        <data id="496">
+                            <property name="resultSetColumn">Title</property>
+                        </data>
+                    </cell>
+                    <cell id="403">
+                        <data id="497">
+                            <property name="resultSetColumn">Barcode</property>
+                        </data>
+                    </cell>
+                    <cell id="404">
+                        <data id="498">
+                            <property name="resultSetColumn">Call Numb</property>
+                        </data>
+                    </cell>
+                    <cell id="501">
+                        <data id="504">
+                            <property name="resultSetColumn">Location</property>
+                        </data>
+                    </cell>
+                    <cell id="406">
+                        <data id="499">
+                            <property name="resultSetColumn">Itm Stat</property>
+                        </data>
+                    </cell>
+                    <cell id="407">
+                        <data id="505">
+                            <property name="resultSetColumn">Patron Nm</property>
+                        </data>
+                    </cell>
+                    <cell id="408">
+                        <data id="506">
+                            <property name="resultSetColumn">Patron Barcode</property>
+                        </data>
+                    </cell>
+                    <cell id="409">
+                        <data id="507">
+                            <property name="resultSetColumn">Created Dt</property>
+                        </data>
+                    </cell>
+                    <cell id="410">
+                        <data id="508">
+                            <property name="resultSetColumn">Due Date</property>
+                        </data>
+                    </cell>
+                    <cell id="411">
+                        <data id="509">
+                            <property name="resultSetColumn">Return Date</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>
