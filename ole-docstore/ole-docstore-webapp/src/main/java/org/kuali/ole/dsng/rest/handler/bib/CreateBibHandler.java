@@ -49,6 +49,7 @@ public class CreateBibHandler extends BibHandler {
 
                 bibRecord.setDateCreated(createdDate);
                 bibRecord.setDateEntered(createdDate);
+                bibRecord.setFassAddFlag(false);
                 BibRecord createdBibRecord = getBibDAO().save(bibRecord);
 
                 String modifiedcontent = process001And003(newBibContent, createdBibRecord.getBibId());
