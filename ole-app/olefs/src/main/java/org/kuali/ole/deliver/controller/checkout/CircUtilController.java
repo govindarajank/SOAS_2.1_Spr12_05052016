@@ -521,22 +521,24 @@ public class CircUtilController extends RuleExecutor {
         List<FeeType> olePatronFeeTypes=loanDocument.getOlePatron().getPatronFeeTypes();
         for(FeeType olePatronfeeType : olePatronFeeTypes){
             if(olePatronfeeType.getFeeType().equals("2") && loanDocument.getItemId().equals(olePatronfeeType.getItemBarcode())) {
-                OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
-                oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
-                oleItemLevelBillPayment.setAmount(olePatronfeeType.getBalFeeAmount());
-                oleItemLevelBillPayment.setCreatedUser(loanDocument.getLoanOperatorId());
-                oleItemLevelBillPayment.setPaymentMode(OLEConstants.FORGIVE);
-                oleItemLevelBillPayment.setNote("Note" + loanDocument.getCheckInDate());
-                List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(olePatronfeeType.getItemLevelBillPaymentList()) ? olePatronfeeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
-                oleItemLevelBillPayments.add(oleItemLevelBillPayment);
-                olePatronfeeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
-                olePatronfeeType.setPaymentStatus(forgivePaymentStatus.getPaymentStatusId());
-                olePatronfeeType.setBalFeeAmount(new KualiDecimal(0));
-                getBusinessObjectService().save(olePatronfeeType);
-                String adminServiceFeeParameter = getParameterResolverInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEParameterConstants.ADMIN_SER_FEE);
-                if(StringUtils.isNotBlank(adminServiceFeeParameter)) {
-                    Double adminSerFee = Double.valueOf(adminServiceFeeParameter);
-                    generateServiceBill(loanDocument, adminSerFee, dueDate);
+                if(olePatronfeeType.getPaymentStatusCode().equalsIgnoreCase("PAY_OUTSTN")) {
+                    OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
+                    oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+                    oleItemLevelBillPayment.setAmount(olePatronfeeType.getBalFeeAmount());
+                    oleItemLevelBillPayment.setCreatedUser(loanDocument.getLoanOperatorId());
+                    oleItemLevelBillPayment.setPaymentMode(OLEConstants.FORGIVE);
+                    oleItemLevelBillPayment.setNote("Note" + loanDocument.getCheckInDate());
+                    List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(olePatronfeeType.getItemLevelBillPaymentList()) ? olePatronfeeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
+                    oleItemLevelBillPayments.add(oleItemLevelBillPayment);
+                    olePatronfeeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
+                    olePatronfeeType.setPaymentStatus(forgivePaymentStatus.getPaymentStatusId());
+                    olePatronfeeType.setBalFeeAmount(new KualiDecimal(0));
+                    getBusinessObjectService().save(olePatronfeeType);
+                    String adminServiceFeeParameter = getParameterResolverInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEParameterConstants.ADMIN_SER_FEE);
+                    if (StringUtils.isNotBlank(adminServiceFeeParameter)) {
+                        Double adminSerFee = Double.valueOf(adminServiceFeeParameter);
+                        generateServiceBill(loanDocument, adminSerFee, dueDate);
+                    }
                 }
             }
         }
