@@ -6,11 +6,14 @@ import org.apache.log4j.Logger;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.notice.NoticeSolrInputDocumentGenerator;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
 import org.kuali.ole.deliver.service.NoticesExecutor;
+import org.kuali.ole.ingest.pojo.OlePatron;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.*;
 
@@ -171,9 +174,12 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
         parameterMap.put("DocFormat", "Email");
         parameterMap.put("noticeType", noticeType);
         parameterMap.put("noticeContent", noticeContent);
-        String patronBarcode = oleDeliverRequestBos.get(0).getOlePatron().getBarcode();
-        String patronId = oleDeliverRequestBos.get(0).getOlePatron().getOlePatronId();
-        parameterMap.put("patronBarcode", patronBarcode);
+        String patronId = (new CircUtilController().getItemRecordByBarcode(oleDeliverRequestBos.get(0).getItemId())).getCurrentBorrower();
+        Map<String, String> parameterMap1 = new HashMap<>();
+        parameterMap1.put("olePatronId", patronId);
+        Long startingTime = System.currentTimeMillis();
+        OlePatronDocument olePatron = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, parameterMap1);
+        parameterMap.put("patronBarcode", olePatron.getBarcode());
         Date dateSent = new Date();
         parameterMap.put("dateSent", dateSent);
         parameterMap.put("uniqueId", patronId+ dateSent.getTime());
