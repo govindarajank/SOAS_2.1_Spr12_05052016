@@ -59,6 +59,21 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="Operator Id" id="512">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="CirculationHistoryItems" id="437">
@@ -124,6 +139,12 @@
                     <text-property name="heading">DUE_DATE_TIME</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">(SELECT L.CRTE_DT_TIME FROM OLE_DLVR_LOAN_T L WHERE IT.BARCODE=L.ITM_ID)</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">(SELECT L.CRTE_DT_TIME FROM OLE_DLVR_LOAN_T L WHERE IT.BARCODE=L.ITM_ID)</text-property>
+                    <text-property name="heading">(SELECT L.CRTE_DT_TIME FROM OLE_DLVR_LOAN_T L WHERE IT.BARCODE=L.ITM_ID)</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">(SELECT BARCODE FROM OLE_PTRN_T
  WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
@@ -148,13 +169,10 @@
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">(SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
- AND ITM_ID = IT.BARCODE)</property>
+                    <property name="columnName">OPTR_CRTE_ID</property>
                     <property name="analysis">dimension</property>
-                    <text-property name="displayName">(SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
- AND ITM_ID = IT.BARCODE)</text-property>
-                    <text-property name="heading">(SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
- AND ITM_ID = IT.BARCODE)</text-property>
+                    <text-property name="displayName">OPTR_CRTE_ID</text-property>
+                    <text-property name="heading">OPTR_CRTE_ID</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters"/>
@@ -192,37 +210,54 @@
                     </structure>
                     <structure>
                         <property name="position">7</property>
+                        <property name="name">(SELECT L.CRTE_DT_TIME FROM OLE_DLVR_LOAN_T L WHERE IT.BARCODE=L.ITM_ID)</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
                         <property name="name">(SELECT BARCODE FROM OLE_PTRN_T
  WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">9</property>
                         <property name="name">(SELECT CONCAT(FIRST_NM, " ", LAST_NM) FROM KRIM_ENTITY_NM_T
  WHERE ENTITY_ID = IT.CURRENT_BORROWER
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
-                        <property name="name">(SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
- AND ITM_ID = IT.BARCODE)</property>
+                        <property name="position">10</property>
+                        <property name="name">OPTR_CRTE_ID</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
             </structure>
             <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " AND IT.DATE_CREATED  BETWEEN '"+ params["Date Created From"].value +"' AND '"+ params["Date Created To"].value +"'";
-if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value!=null){
+if(params["Item Title"].value !=null  &amp;&amp; params["Call Number"].value!=null  &amp;&amp; params["Operator Id"].value !=null){
 	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
 	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
-}else if(params["Item Title"].value ==null &amp;&amp; params["Call Number"].value!=null){
-	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
-}else if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value==null){
+	this.queryText = this.queryText + " AND ODL.OPTR_CRTE_ID='"+ params["Operator Id"].value+"'";
+}else if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value!=null &amp;&amp; params["Operator Id"].value ==null){
 	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
+	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
+}else if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value==null &amp;&amp; params["Operator Id"].value !=null){
+	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
+	this.queryText = this.queryText + " AND ODL.OPTR_CRTE_ID='"+ params["Operator Id"].value+"'";
+}else if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value==null &amp;&amp; params["Operator Id"].value ==null){
+	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
+}else if(params["Item Title"].value ==null &amp;&amp; params["Call Number"].value!=null &amp;&amp; params["Operator Id"].value !=null){
+	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
+	this.queryText = this.queryText + " AND ODL.OPTR_CRTE_ID='"+ params["Operator Id"].value+"'";
+}else if(params["Item Title"].value ==null &amp;&amp; params["Call Number"].value!=null &amp;&amp; params["Operator Id"].value ==null){
+	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
+}else if(params["Item Title"].value ==null &amp;&amp; params["Call Number"].value==null &amp;&amp; params["Operator Id"].value !=null){
+	this.queryText = this.queryText + " AND ODL.OPTR_CRTE_ID='"+ params["Operator Id"].value+"'";
 }else{
 	this.queryText = this.queryText + "";
-}]]></method>
+}
+]]></method>
             <property name="dataSource">CirculationHistoryItems</property>
             <list-property name="resultSet">
                 <structure>
@@ -269,6 +304,13 @@ if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value!=nul
                 </structure>
                 <structure>
                     <property name="position">7</property>
+                    <property name="name">(SELECT L.CRTE_DT_TIME FROM OLE_DLVR_LOAN_T L WHERE IT.BARCODE=L.ITM_ID)</property>
+                    <property name="nativeName">(SELECT L.CRTE_DT_TIME FROM OLE_DLVR_LOAN_T L WHERE IT.BARCODE=L.ITM_ID)</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
                     <property name="name">(SELECT BARCODE FROM OLE_PTRN_T
  WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
@@ -279,7 +321,7 @@ if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value!=nul
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">(SELECT CONCAT(FIRST_NM, " ", LAST_NM) FROM KRIM_ENTITY_NM_T
  WHERE ENTITY_ID = IT.CURRENT_BORROWER
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
@@ -290,11 +332,9 @@ if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value!=nul
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
-                    <property name="name">(SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
- AND ITM_ID = IT.BARCODE)</property>
-                    <property name="nativeName">(SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
- AND ITM_ID = IT.BARCODE)</property>
+                    <property name="position">10</property>
+                    <property name="name">OPTR_CRTE_ID</property>
+                    <property name="nativeName">OPTR_CRTE_ID</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
@@ -306,518 +346,30 @@ IT.CALL_NUMBER,
 IT.LOCATION,
 ITS.ITEM_AVAIL_STAT_CD,
 IT.DUE_DATE_TIME,
+(SELECT L.CRTE_DT_TIME FROM OLE_DLVR_LOAN_T L WHERE IT.BARCODE=L.ITM_ID),
 (SELECT BARCODE FROM OLE_PTRN_T
  WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL)),
 (SELECT CONCAT(FIRST_NM, " ", LAST_NM) FROM KRIM_ENTITY_NM_T
  WHERE ENTITY_ID = IT.CURRENT_BORROWER
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL)),
-(SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
- AND ITM_ID = IT.BARCODE)
+ ODL.OPTR_CRTE_ID
 from
 OLE_DS_ITEM_T IT,
 OLE_DS_HOLDINGS_T H,
 OLE_DS_BIB_INFO_T B,
-OLE_DLVR_ITEM_AVAIL_STAT_T ITS
+OLE_DLVR_ITEM_AVAIL_STAT_T ITS,
+OLE_DLVR_LOAN_T ODL
 WHERE
 H.HOLDINGS_ID = IT.HOLDINGS_ID
 AND
 H.BIB_ID = B.BIB_ID
 AND
 ITS.ITEM_AVAIL_STAT_ID = IT.ITEM_STATUS_ID
-]]></xml-property>
-        </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="CirculationItemRequests" id="469">
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">CONCAT(NM.FIRST_NM," ",NM.LAST_NM)</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">CONCAT(NM.FIRST_NM," ",NM.LAST_NM)</text-property>
-                    <text-property name="heading">CONCAT(NM.FIRST_NM," ",NM.LAST_NM)</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">PTRN_Q_POS</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">PTRN_Q_POS</text-property>
-                    <text-property name="heading">PTRN_Q_POS</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">OLE_PTRN_BARCD</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">OLE_PTRN_BARCD</text-property>
-                    <text-property name="heading">OLE_PTRN_BARCD</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">TITLE</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">TITLE</text-property>
-                    <text-property name="heading">TITLE</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">BARCODE</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">BARCODE</text-property>
-                    <text-property name="heading">BARCODE</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">CALL_NUMBER</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">CALL_NUMBER</text-property>
-                    <text-property name="heading">CALL_NUMBER</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">LOCATION</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">LOCATION</text-property>
-                    <text-property name="heading">LOCATION</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">ITEM_AVAIL_STAT_CD</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">ITEM_AVAIL_STAT_CD</text-property>
-                    <text-property name="heading">ITEM_AVAIL_STAT_CD</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">CRTE_DT_TIME</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">CRTE_DT_TIME</text-property>
-                    <text-property name="heading">CRTE_DT_TIME</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">RQST_EXPIR_DT_TIME</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">RQST_EXPIR_DT_TIME</text-property>
-                    <text-property name="heading">RQST_EXPIR_DT_TIME</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">HOLD_EXP_DATE</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">HOLD_EXP_DATE</text-property>
-                    <text-property name="heading">HOLD_EXP_DATE</text-property>
-                </structure>
-            </list-property>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">CONCAT(NM.FIRST_NM," ",NM.LAST_NM)</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">PTRN_Q_POS</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">OLE_PTRN_BARCD</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">TITLE</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">BARCODE</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">CALL_NUMBER</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">LOCATION</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">ITEM_AVAIL_STAT_CD</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">CRTE_DT_TIME</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">10</property>
-                        <property name="name">RQST_EXPIR_DT_TIME</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">11</property>
-                        <property name="name">HOLD_EXP_DATE</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                </list-property>
-            </structure>
-            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " AND IT.DATE_CREATED  BETWEEN '"+ params["Date Created From"].value +"' AND '"+ params["Date Created To"].value +"'";
-if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value!=null){
-	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
-	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
-}else if(params["Item Title"].value ==null &amp;&amp; params["Call Number"].value!=null){
-	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
-}else if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value==null){
-	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
-}else{
-	this.queryText = this.queryText + "";
-}]]></method>
-            <property name="dataSource">CirculationHistoryItems</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">CONCAT(NM.FIRST_NM," ",NM.LAST_NM)</property>
-                    <property name="nativeName">CONCAT(NM.FIRST_NM," ",NM.LAST_NM)</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">PTRN_Q_POS</property>
-                    <property name="nativeName">PTRN_Q_POS</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">OLE_PTRN_BARCD</property>
-                    <property name="nativeName">OLE_PTRN_BARCD</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">TITLE</property>
-                    <property name="nativeName">TITLE</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">BARCODE</property>
-                    <property name="nativeName">BARCODE</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">CALL_NUMBER</property>
-                    <property name="nativeName">CALL_NUMBER</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">LOCATION</property>
-                    <property name="nativeName">LOCATION</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">8</property>
-                    <property name="name">ITEM_AVAIL_STAT_CD</property>
-                    <property name="nativeName">ITEM_AVAIL_STAT_CD</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">9</property>
-                    <property name="name">CRTE_DT_TIME</property>
-                    <property name="nativeName">CRTE_DT_TIME</property>
-                    <property name="dataType">date-time</property>
-                    <property name="nativeDataType">93</property>
-                </structure>
-                <structure>
-                    <property name="position">10</property>
-                    <property name="name">RQST_EXPIR_DT_TIME</property>
-                    <property name="nativeName">RQST_EXPIR_DT_TIME</property>
-                    <property name="dataType">date-time</property>
-                    <property name="nativeDataType">93</property>
-                </structure>
-                <structure>
-                    <property name="position">11</property>
-                    <property name="name">HOLD_EXP_DATE</property>
-                    <property name="nativeName">HOLD_EXP_DATE</property>
-                    <property name="dataType">date</property>
-                    <property name="nativeDataType">91</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[SELECT
-	CONCAT(NM.FIRST_NM," ",NM.LAST_NM),
-	DR.PTRN_Q_POS,
-    DR.OLE_PTRN_BARCD,
-    B.TITLE,
-    IT.BARCODE,
-    IT.CALL_NUMBER,
-    IT.LOCATION, 
-    ITS.ITEM_AVAIL_STAT_CD,
-    DR.CRTE_DT_TIME,
-	DR.RQST_EXPIR_DT_TIME,
-	DR.HOLD_EXP_DATE
-FROM
-	OLE_DLVR_RQST_T DR,
-    OLE_DS_ITEM_T IT,
-    OLE_DS_BIB_INFO_T B,
-    OLE_DS_HOLDINGS_T H,
-    OLE_DLVR_ITEM_AVAIL_STAT_T ITS,
-	KRIM_ENTITY_NM_T NM
-WHERE
-	NM.ENTITY_ID=DR.OLE_PTRN_ID
-    AND
-    IT.BARCODE=DR.ITM_ID
-    AND
-    H.HOLDINGS_ID = IT.HOLDINGS_ID
-    AND
-    B.BIB_ID = H.BIB_ID
-    AND
-    IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID
-  ]]></xml-property>
-            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
-  <Version>2.0</Version>
-  <design:ResultSets derivedMetaData="true">
-    <design:resultSetDefinitions>
-      <design:resultSetColumns>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>CONCAT(NM.FIRST_NM,&amp;quot; &amp;quot;,NM.LAST_NM)</design:name>
-              <design:position>1</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>121</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>CONCAT(NM.FIRST_NM,&amp;quot; &amp;quot;,NM.LAST_NM)</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>CONCAT(NM.FIRST_NM,&amp;quot; &amp;quot;,NM.LAST_NM)</design:label>
-            <design:formattingHints>
-              <design:displaySize>121</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>PTRN_Q_POS</design:name>
-              <design:position>2</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
-            <design:precision>11</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>PTRN_Q_POS</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>PTRN_Q_POS</design:label>
-            <design:formattingHints>
-              <design:displaySize>11</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OLE_PTRN_BARCD</design:name>
-              <design:position>3</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>80</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OLE_PTRN_BARCD</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OLE_PTRN_BARCD</design:label>
-            <design:formattingHints>
-              <design:displaySize>80</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>TITLE</design:name>
-              <design:position>4</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>4000</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>TITLE</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>TITLE</design:label>
-            <design:formattingHints>
-              <design:displaySize>4000</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>BARCODE</design:name>
-              <design:position>5</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>30</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>BARCODE</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>BARCODE</design:label>
-            <design:formattingHints>
-              <design:displaySize>30</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>CALL_NUMBER</design:name>
-              <design:position>6</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>100</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>CALL_NUMBER</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>CALL_NUMBER</design:label>
-            <design:formattingHints>
-              <design:displaySize>100</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>LOCATION</design:name>
-              <design:position>7</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>600</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>LOCATION</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>LOCATION</design:label>
-            <design:formattingHints>
-              <design:displaySize>600</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>ITEM_AVAIL_STAT_CD</design:name>
-              <design:position>8</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>ITEM_AVAIL_STAT_CD</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>ITEM_AVAIL_STAT_CD</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>CRTE_DT_TIME</design:name>
-              <design:position>9</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>CRTE_DT_TIME</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>CRTE_DT_TIME</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>RQST_EXPIR_DT_TIME</design:name>
-              <design:position>10</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>RQST_EXPIR_DT_TIME</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>RQST_EXPIR_DT_TIME</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>HOLD_EXP_DATE</design:name>
-              <design:position>11</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
-            <design:precision>10</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>HOLD_EXP_DATE</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>HOLD_EXP_DATE</design:label>
-            <design:formattingHints>
-              <design:displaySize>10</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-      </design:resultSetColumns>
-      <design:criteria/>
-    </design:resultSetDefinitions>
-  </design:ResultSets>
-</model:DesignValues>]]></xml-property>
+AND
+IT.BARCODE=ODL.ITM_ID
+AND
+IT.ITEM_STATUS_ID='17']]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="CirculationHistoryItems" id="470">
             <list-property name="columnHints">
@@ -881,7 +433,14 @@ WHERE
                     <text-property name="displayName">CHECK_IN_DT_TIME</text-property>
                     <text-property name="heading">CHECK_IN_DT_TIME</text-property>
                 </structure>
+                <structure>
+                    <property name="columnName">OPTR_CRTE_ID</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">OPTR_CRTE_ID</text-property>
+                    <text-property name="heading">OPTR_CRTE_ID</text-property>
+                </structure>
             </list-property>
+            <list-property name="parameters"/>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -934,19 +493,37 @@ WHERE
                         <property name="name">CHECK_IN_DT_TIME</property>
                         <property name="dataType">date-time</property>
                     </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">OPTR_CRTE_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
                 </list-property>
             </structure>
             <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " AND IT.DATE_CREATED  BETWEEN '"+ params["Date Created From"].value +"' AND '"+ params["Date Created To"].value +"'";
-if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value!=null){
+if(params["Item Title"].value !=null  &amp;&amp; params["Call Number"].value!=null  &amp;&amp; params["Operator Id"].value !=null){
 	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
 	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
-}else if(params["Item Title"].value ==null &amp;&amp; params["Call Number"].value!=null){
-	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
-}else if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value==null){
+	this.queryText = this.queryText + " AND ODCR.OPTR_CRTE_ID='"+ params["Operator Id"].value+"'";
+}else if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value!=null &amp;&amp; params["Operator Id"].value ==null){
 	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
+	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
+}else if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value==null &amp;&amp; params["Operator Id"].value !=null){
+	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
+	this.queryText = this.queryText + " AND ODCR.OPTR_CRTE_ID='"+ params["Operator Id"].value+"'";
+}else if(params["Item Title"].value !=null &amp;&amp; params["Call Number"].value==null &amp;&amp; params["Operator Id"].value ==null){
+	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
+}else if(params["Item Title"].value ==null &amp;&amp; params["Call Number"].value!=null &amp;&amp; params["Operator Id"].value !=null){
+	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
+	this.queryText = this.queryText + " AND ODCR.OPTR_CRTE_ID='"+ params["Operator Id"].value+"'";
+}else if(params["Item Title"].value ==null &amp;&amp; params["Call Number"].value!=null &amp;&amp; params["Operator Id"].value ==null){
+	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
+}else if(params["Item Title"].value ==null &amp;&amp; params["Call Number"].value==null &amp;&amp; params["Operator Id"].value !=null){
+	this.queryText = this.queryText + " AND ODCR.OPTR_CRTE_ID='"+ params["Operator Id"].value+"'";
 }else{
 	this.queryText = this.queryText + "";
 }
+
 
 this.queryText = this.queryText + " ORDER BY ODCR.CRTE_DT_TIME DESC";]]></method>
             <property name="dataSource">CirculationHistoryItems</property>
@@ -1021,6 +598,13 @@ this.queryText = this.queryText + " ORDER BY ODCR.CRTE_DT_TIME DESC";]]></method
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">OPTR_CRTE_ID</property>
+                    <property name="nativeName">OPTR_CRTE_ID</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[SELECT
 B.TITLE,
@@ -1032,7 +616,8 @@ CONCAT(NM.FIRST_NM ," ", NM.LAST_NM),
 P.BARCODE,
 ODCR.CRTE_DT_TIME,
 ODCR.DUE_DT_TIME,
-ODCR.CHECK_IN_DT_TIME
+ODCR.CHECK_IN_DT_TIME,
+ODCR.OPTR_CRTE_ID
 FROM
 OLE_DLVR_CIRC_RECORD ODCR,
 OLE_DS_ITEM_T IT,
@@ -1052,7 +637,8 @@ H.HOLDINGS_ID = IT.HOLDINGS_ID
 AND
 B.BIB_ID = H.BIB_ID
 AND
-IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
+IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID
+]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1426,14 +1012,6 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">(SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
- AND ITM_ID = IT.BARCODE)</property>
-                    <text-property name="displayName">(SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
- AND ITM_ID = IT.BARCODE)</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["(SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER\n AND ITM_ID = IT.BARCODE)"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
                     <property name="name">Item Title</property>
                     <text-property name="displayName">Item Title</text-property>
                     <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
@@ -1490,9 +1068,16 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
                     <property name="allowExport">true</property>
                 </structure>
                 <structure>
-                    <property name="name">Operator Id</property>
-                    <text-property name="displayName">Operator Id</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["(SELECT OPTR_CRTE_ID FROM OLE_DLVR_LOAN_T WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER\n AND ITM_ID = IT.BARCODE)"]</expression>
+                    <property name="name">Ln Created Dt</property>
+                    <text-property name="displayName">Ln Created Dt</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["(SELECT L.CRTE_DT_TIME FROM OLE_DLVR_LOAN_T L WHERE IT.BARCODE=L.ITM_ID)"]</expression>
+                    <property name="dataType">date-time</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Opt Id</property>
+                    <text-property name="displayName">Opt Id</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["OPTR_CRTE_ID"]</expression>
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
@@ -1512,6 +1097,9 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
             <column id="334">
                 <property name="style">NewStyle3</property>
             </column>
+            <column id="515">
+                <property name="style">NewStyle3</property>
+            </column>
             <column id="335">
                 <property name="style">NewStyle3</property>
             </column>
@@ -1521,7 +1109,7 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
             <column id="337">
                 <property name="style">NewStyle3</property>
             </column>
-            <column id="338">
+            <column id="526">
                 <property name="style">NewStyle3</property>
             </column>
             <header>
@@ -1556,6 +1144,12 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
                             <text-property name="text">Item Status</text-property>
                         </label>
                     </cell>
+                    <cell id="513">
+                        <property name="style">NewStyle</property>
+                        <label id="516">
+                            <text-property name="text">Loan Created Date</text-property>
+                        </label>
+                    </cell>
                     <cell id="306">
                         <property name="style">NewStyle</property>
                         <label id="444">
@@ -1574,9 +1168,9 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
                             <text-property name="text">Current Borrower Name</text-property>
                         </label>
                     </cell>
-                    <cell id="309">
+                    <cell id="524">
                         <property name="style">NewStyle</property>
-                        <label id="447">
+                        <label id="527">
                             <text-property name="text">Operator Id</text-property>
                         </label>
                     </cell>
@@ -1614,6 +1208,12 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
                             <property name="resultSetColumn">Item Status</property>
                         </data>
                     </cell>
+                    <cell id="514">
+                        <property name="style">NewStyle</property>
+                        <data id="517">
+                            <property name="resultSetColumn">Ln Created Dt</property>
+                        </data>
+                    </cell>
                     <cell id="316">
                         <property name="style">NewStyle</property>
                         <data id="480">
@@ -1632,334 +1232,16 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
                             <property name="resultSetColumn">Curr Borr Name</property>
                         </data>
                     </cell>
-                    <cell id="319">
+                    <cell id="525">
                         <property name="style">NewStyle</property>
-                        <data id="483">
-                            <property name="resultSetColumn">Operator Id</property>
+                        <data id="528">
+                            <property name="resultSetColumn">Opt Id</property>
                         </data>
                     </cell>
                 </row>
             </detail>
         </table>
         <label id="339">
-            <property name="fontSize">12pt</property>
-            <property name="fontWeight">bold</property>
-            <property name="textAlign">center</property>
-            <text-property name="text"></text-property>
-        </label>
-        <label id="340">
-            <property name="fontSize">12pt</property>
-            <property name="fontWeight">bold</property>
-            <property name="textAlign">center</property>
-            <text-property name="text">Request Details</text-property>
-        </label>
-        <label id="341">
-            <property name="fontSize">12pt</property>
-            <property name="fontWeight">bold</property>
-            <property name="textAlign">center</property>
-            <text-property name="text"></text-property>
-        </label>
-        <table id="342">
-            <property name="style">NewStyle</property>
-            <property name="dataSet">CirculationItemRequests</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CONCAT(NM.FIRST_NM," ",NM.LAST_NM)</property>
-                    <text-property name="displayName">CONCAT(NM.FIRST_NM," ",NM.LAST_NM)</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CONCAT(NM.FIRST_NM,\" \",NM.LAST_NM)"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PTRN_Q_POS</property>
-                    <text-property name="displayName">PTRN_Q_POS</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["PTRN_Q_POS"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">OLE_PTRN_BARCD</property>
-                    <text-property name="displayName">OLE_PTRN_BARCD</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["OLE_PTRN_BARCD"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">TITLE</property>
-                    <text-property name="displayName">TITLE</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">BARCODE</property>
-                    <text-property name="displayName">BARCODE</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["BARCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CALL_NUMBER</property>
-                    <text-property name="displayName">CALL_NUMBER</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">LOCATION</property>
-                    <text-property name="displayName">LOCATION</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["LOCATION"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ITEM_AVAIL_STAT_CD</property>
-                    <text-property name="displayName">ITEM_AVAIL_STAT_CD</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["ITEM_AVAIL_STAT_CD"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CRTE_DT_TIME</property>
-                    <text-property name="displayName">CRTE_DT_TIME</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CRTE_DT_TIME"]</expression>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="name">RQST_EXPIR_DT_TIME</property>
-                    <text-property name="displayName">RQST_EXPIR_DT_TIME</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["RQST_EXPIR_DT_TIME"]</expression>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="name">HOLD_EXP_DATE</property>
-                    <text-property name="displayName">HOLD_EXP_DATE</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["HOLD_EXP_DATE"]</expression>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="name">Requestor Name</property>
-                    <text-property name="displayName">Requestor Name</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CONCAT(NM.FIRST_NM,\" \",NM.LAST_NM)"]</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-                <structure>
-                    <property name="name">Que Position</property>
-                    <text-property name="displayName">Que Position</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["PTRN_Q_POS"]</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-                <structure>
-                    <property name="name">Requuestor Bcode</property>
-                    <text-property name="displayName">Requuestor Bcode</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["OLE_PTRN_BARCD"]</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-                <structure>
-                    <property name="name">Req Itm Tit</property>
-                    <text-property name="displayName">Req Itm Tit</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-                <structure>
-                    <property name="name">Req Itm Bcode</property>
-                    <text-property name="displayName">Req Itm Bcode</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["BARCODE"]</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-                <structure>
-                    <property name="name">Req Itm Call Num</property>
-                    <text-property name="displayName">Req Itm Call Num</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER"]</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-                <structure>
-                    <property name="name">Req Itm Loc</property>
-                    <text-property name="displayName">Req Itm Loc</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["LOCATION"]</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-                <structure>
-                    <property name="name">Req Itm Stat</property>
-                    <text-property name="displayName">Req Itm Stat</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["ITEM_AVAIL_STAT_CD"]</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-                <structure>
-                    <property name="name">Req Created Date</property>
-                    <text-property name="displayName">Req Created Date</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CRTE_DT_TIME"]</expression>
-                    <property name="dataType">date-time</property>
-                    <property name="allowExport">true</property>
-                </structure>
-                <structure>
-                    <property name="name">Req Exp Date</property>
-                    <text-property name="displayName">Req Exp Date</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["RQST_EXPIR_DT_TIME"]</expression>
-                    <property name="dataType">date-time</property>
-                    <property name="allowExport">true</property>
-                </structure>
-                <structure>
-                    <property name="name">Hold Exp Dt</property>
-                    <text-property name="displayName">Hold Exp Dt</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["HOLD_EXP_DATE"]</expression>
-                    <property name="dataType">date-time</property>
-                    <property name="allowExport">true</property>
-                </structure>
-            </list-property>
-            <column id="379">
-                <property name="style">NewStyle4</property>
-            </column>
-            <column id="380">
-                <property name="style">NewStyle4</property>
-            </column>
-            <column id="381">
-                <property name="style">NewStyle4</property>
-            </column>
-            <column id="382">
-                <property name="style">NewStyle4</property>
-            </column>
-            <column id="383">
-                <property name="style">NewStyle4</property>
-            </column>
-            <column id="384">
-                <property name="style">NewStyle4</property>
-            </column>
-            <column id="385">
-                <property name="style">NewStyle4</property>
-            </column>
-            <column id="386">
-                <property name="style">NewStyle4</property>
-            </column>
-            <column id="387">
-                <property name="style">NewStyle4</property>
-            </column>
-            <column id="388">
-                <property name="style">NewStyle4</property>
-            </column>
-            <column id="389">
-                <property name="style">NewStyle4</property>
-            </column>
-            <header>
-                <row id="343">
-                    <cell id="344">
-                        <label id="448">
-                            <text-property name="text">Requestor Name</text-property>
-                        </label>
-                    </cell>
-                    <cell id="345">
-                        <label id="449">
-                            <text-property name="text">Queue Position</text-property>
-                        </label>
-                    </cell>
-                    <cell id="346">
-                        <label id="450">
-                            <text-property name="text">Requestor Barcode</text-property>
-                        </label>
-                    </cell>
-                    <cell id="347">
-                        <label id="451">
-                            <text-property name="text">Requested Item Title</text-property>
-                        </label>
-                    </cell>
-                    <cell id="348">
-                        <label id="452">
-                            <text-property name="text">Requested Item Barcode</text-property>
-                        </label>
-                    </cell>
-                    <cell id="349">
-                        <label id="453">
-                            <text-property name="text">Requested Item Call Number</text-property>
-                        </label>
-                    </cell>
-                    <cell id="350">
-                        <label id="454">
-                            <text-property name="text">Requested Item Location</text-property>
-                        </label>
-                    </cell>
-                    <cell id="351">
-                        <label id="455">
-                            <text-property name="text">Requested Item Status</text-property>
-                        </label>
-                    </cell>
-                    <cell id="352">
-                        <label id="456">
-                            <text-property name="text">Request Created Date</text-property>
-                        </label>
-                    </cell>
-                    <cell id="353">
-                        <label id="457">
-                            <text-property name="text">Request Expiration Date</text-property>
-                        </label>
-                    </cell>
-                    <cell id="354">
-                        <label id="458">
-                            <text-property name="text">Hold Expiration Date</text-property>
-                        </label>
-                    </cell>
-                </row>
-            </header>
-            <detail>
-                <row id="355">
-                    <cell id="356">
-                        <data id="485">
-                            <property name="resultSetColumn">Requestor Name</property>
-                        </data>
-                    </cell>
-                    <cell id="357">
-                        <data id="486">
-                            <property name="resultSetColumn">Que Position</property>
-                        </data>
-                    </cell>
-                    <cell id="358">
-                        <data id="487">
-                            <property name="resultSetColumn">Requuestor Bcode</property>
-                        </data>
-                    </cell>
-                    <cell id="359">
-                        <data id="488">
-                            <property name="resultSetColumn">Req Itm Tit</property>
-                        </data>
-                    </cell>
-                    <cell id="360">
-                        <data id="489">
-                            <property name="resultSetColumn">Req Itm Bcode</property>
-                        </data>
-                    </cell>
-                    <cell id="361">
-                        <data id="490">
-                            <property name="resultSetColumn">Req Itm Call Num</property>
-                        </data>
-                    </cell>
-                    <cell id="362">
-                        <data id="491">
-                            <property name="resultSetColumn">Req Itm Loc</property>
-                        </data>
-                    </cell>
-                    <cell id="363">
-                        <data id="492">
-                            <property name="resultSetColumn">Req Itm Stat</property>
-                        </data>
-                    </cell>
-                    <cell id="364">
-                        <data id="493">
-                            <property name="resultSetColumn">Req Created Date</property>
-                        </data>
-                    </cell>
-                    <cell id="365">
-                        <data id="494">
-                            <property name="resultSetColumn">Req Exp Date</property>
-                        </data>
-                    </cell>
-                    <cell id="366">
-                        <data id="495">
-                            <property name="resultSetColumn">Hold Exp Dt</property>
-                        </data>
-                    </cell>
-                </row>
-            </detail>
-        </table>
-        <label id="390">
             <property name="fontSize">12pt</property>
             <property name="fontWeight">bold</property>
             <property name="textAlign">center</property>
@@ -2111,6 +1393,13 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
+                <structure>
+                    <property name="name">Operatr Id</property>
+                    <text-property name="displayName">Operatr Id</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["OPTR_CRTE_ID"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <column id="427">
                 <property name="style">NewStyle5</property>
@@ -2140,6 +1429,9 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
                 <property name="style">NewStyle5</property>
             </column>
             <column id="436">
+                <property name="style">NewStyle5</property>
+            </column>
+            <column id="520">
                 <property name="style">NewStyle5</property>
             </column>
             <header>
@@ -2204,6 +1496,12 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
                             <text-property name="text">Item Return Date</text-property>
                         </label>
                     </cell>
+                    <cell id="518">
+                        <property name="style">NewStyle</property>
+                        <label id="522">
+                            <text-property name="text">Operator Id</text-property>
+                        </label>
+                    </cell>
                 </row>
             </header>
             <detail>
@@ -2266,6 +1564,12 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID]]></xml-property>
                         <property name="style">NewStyle</property>
                         <data id="505">
                             <property name="resultSetColumn">Itm Ret Dt</property>
+                        </data>
+                    </cell>
+                    <cell id="519">
+                        <property name="style">NewStyle</property>
+                        <data id="523">
+                            <property name="resultSetColumn">Operatr Id</property>
                         </data>
                     </cell>
                 </row>

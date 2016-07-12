@@ -51,7 +51,7 @@
 			<html:hidden property="tabStates(${tabKey})" value="CLOSE" />		
 		</c:when>
 		<c:when test="${!empty currentTab}">
-			<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
+			<c:set var="isOpen" value="true" />
 		</c:when>
 	</c:choose>
 
