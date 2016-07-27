@@ -1163,7 +1163,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService, Docstor
             }
             character = stringCharacterIterator.next();
         }
-        return modifiedText.toString().toLowerCase();
+        return modifiedText.toString();
     }
 
     /*public String buildQueryWithSortConditions(List<SortCondition> sortConditions) {
