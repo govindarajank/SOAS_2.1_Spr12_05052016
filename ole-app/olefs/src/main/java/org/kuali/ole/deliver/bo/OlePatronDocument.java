@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.api.*;
+import org.kuali.ole.deliver.util.ItemInfoUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
@@ -21,6 +22,7 @@ import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -2056,5 +2058,17 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
             }
         }
         return false;
+    }
+
+    public String getLoanedPatronBorrowerType(String itemBarcode){
+        String borrowerType = null;
+        if(itemBarcode!=null) {
+            ItemRecord itemRecord = ItemInfoUtil.getInstance().getItemRecordByBarcode(itemBarcode);
+            Map<String,String> olePatronMap = new HashMap<>();
+            olePatronMap.put("olePatronId",itemRecord.getCurrentBorrower());
+            OlePatronDocument oleLoanPatronDocument = getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, olePatronMap);
+            borrowerType = oleLoanPatronDocument.getBorrowerTypeCode();
+        }
+        return borrowerType;
     }
 }

@@ -16,7 +16,7 @@ agenda-group "place-request"
 when
 $n: NoticeInfo()
 $d : DroolsResponse()
-$p: OlePatronDocument(getBorrowerTypeCode() in ("TP","UG","CREDIP","INTUG","INTTP","TPEXT","UGEXT","LSE","IOE","UCL","EXT3","EXT6","ILL","FULL","PGR","LCT","INTPGR","ACHOS","PGREXT","RESAST","SPORA","SPORS","SPORET"),getRequestedItemRecordsCount()<3)
+$p: OlePatronDocument(getBorrowerTypeCode() in ("TP","UG","CREDIP","INTUG","INTTP","TPEXT","UGEXT","LSE","IOE","UCL","EXT3","EXT6","FULL","PGR","LCT","INTPGR","ACHOS","PGREXT","RESAST","SPORA","SPORS","SPORET"),getRequestedItemRecordsCount()<3)
 $dr: OleDeliverRequestBo(getItemType() in ("LONG"),
 getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),!isClaimsReturnedFlag(),
 getRequestTypeCode() in ("Recall/Hold Request"))
@@ -34,7 +34,7 @@ agenda-group "place-request"
 when
 $n: NoticeInfo()
 $d : DroolsResponse()
-$p: OlePatronDocument(getBorrowerTypeCode() in ("TP","UG","CREDIP","INTUG","INTTP","TPEXT","UGEXT","LSE","IOE","UCL","EXT3","EXT6","ILL","FULL","PGR","LCT","INTPGR","ACHOS","PGREXT","RESAST","SPORA","SPORS","SPORET"),getRequestedItemRecordsCount()<3)
+$p: OlePatronDocument(getBorrowerTypeCode() in ("TP","UG","CREDIP","INTUG","INTTP","TPEXT","UGEXT","LSE","IOE","UCL","EXT3","EXT6","FULL","PGR","LCT","INTPGR","ACHOS","PGREXT","RESAST","SPORA","SPORS","SPORET"),getRequestedItemRecordsCount()<3)
 $i: OleDeliverRequestBo(getItemType() in ("LONG"),
 getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),isClaimsReturnedFlag(),
 getRequestTypeCode() in ("Recall/Hold Request"))
@@ -52,7 +52,7 @@ agenda-group "place-request"
 when
 $n: NoticeInfo()
 $d : DroolsResponse()
-$p: OlePatronDocument(getBorrowerTypeCode() in ("TP","UG","CREDIP","INTUG","INTTP","TPEXT","UGEXT","LSE","IOE","UCL","EXT3","EXT6","ILL","FULL","PGR","LCT","INTPGR","ACHOS","PGREXT","RESAST","SPORA","SPORS","SPORET"),getRequestedItemRecordsCount()>=3)
+$p: OlePatronDocument(getBorrowerTypeCode() in ("TP","UG","CREDIP","INTUG","INTTP","TPEXT","UGEXT","LSE","IOE","UCL","EXT3","EXT6","FULL","PGR","LCT","INTPGR","ACHOS","PGREXT","RESAST","SPORA","SPORS","SPORET"),getRequestedItemRecordsCount()>=3)
 $i: OleDeliverRequestBo(getItemType() in ("LONG"),
 getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),
 getRequestTypeCode() in ("Recall/Hold Request"))
@@ -121,7 +121,7 @@ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
   when
   $n: NoticeInfo()
   $d : DroolsResponse()
-  $p: OlePatronDocument(getBorrowerTypeCode() in ("ILL"),getRequestedItemRecordsCount()<3)
+  $p: OlePatronDocument(getBorrowerTypeCode() in ("FULL"),getRequestedItemRecordsCount()<3)
   $dr: OleDeliverRequestBo(getItemType() in ("LONG","ONE_WEEK"),
   getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),!isClaimsReturnedFlag(),
   getRequestTypeCode() in ("Hold/Hold Request"))
@@ -136,7 +136,7 @@ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
   when
   $n: NoticeInfo()
   $d : DroolsResponse()
-  $p: OlePatronDocument(getBorrowerTypeCode() in ("ILL"),getRequestedItemRecordsCount()<3)
+  $p: OlePatronDocument(getBorrowerTypeCode() in ("FULL"),getRequestedItemRecordsCount()<3)
   $i: OleDeliverRequestBo(getItemType() in ("LONG","ONE_WEEK"),
   getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),isClaimsReturnedFlag(),
   getRequestTypeCode() in ("Hold/Hold Request"))
@@ -154,7 +154,7 @@ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
   when
   $n: NoticeInfo()
   $d : DroolsResponse()
-  $p: OlePatronDocument(getBorrowerTypeCode() in ("ILL"),getRequestedItemRecordsCount()>=3)
+  $p: OlePatronDocument(getBorrowerTypeCode() in ("FULL"),getRequestedItemRecordsCount()>=3)
   $i: OleDeliverRequestBo(getItemType() in ("LONG","ONE_WEEK"),
   getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),
   getRequestTypeCode() in ("Hold/Hold Request"))
@@ -165,4 +165,70 @@ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
    end
 
+  rule "2W_1M_6W_3MLoanHoldRequest3"
+  agenda-group "place-request"
+  when
+  $n: NoticeInfo()
+  $d : DroolsResponse()
+  $p: OlePatronDocument(getBorrowerTypeCode() in ("ILL"))
+  $dr: OleDeliverRequestBo(getItemType() in ("LONG","ONE_WEEK"),
+  getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),!isClaimsReturnedFlag(),
+  getRequestTypeCode() in ("Hold/Hold Request"))
+
+  then
+  $d.setRuleMatched(true);
+  $d.getDroolsExchange().addToContext("requestExpirationDays",359);
+   end
+
+  rule "2W_1M_6W_3MLoanHOLDRequest4"
+  agenda-group "place-request"
+  when
+  $n: NoticeInfo()
+  $d : DroolsResponse()
+  $p: OlePatronDocument(getBorrowerTypeCode() in ("ILL"))
+  $i: OleDeliverRequestBo(getItemType() in ("LONG","ONE_WEEK"),
+  getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),isClaimsReturnedFlag(),
+  getRequestTypeCode() in ("Hold/Hold Request"))
+
+  then
+  $d.setRuleMatched(true);
+  $d.addErrorMessage("Item has been claimed as returned. So item is temporarily unavailable for circulation.");
+  $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+
+   end
+
+  rule "2W_1M_6W_3MLoanRecallRequest3"
+  agenda-group "place-request"
+  when
+  $n: NoticeInfo()
+  $d : DroolsResponse()
+  $p: OlePatronDocument(getBorrowerTypeCode() in ("ILL"))
+  $dr: OleDeliverRequestBo(getItemType() in ("LONG","ONE_WEEK"),
+  getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),!isClaimsReturnedFlag(),
+  getRequestTypeCode() in ("Recall/Hold Request"))
+
+  then
+  $d.setRuleMatched(true);
+  $n.setNoticeType(OLEConstants.NOTICE_RECALL);
+  $d.getDroolsExchange().addToContext("requestExpirationDays",359);
+  $d.getDroolsExchange().addToContext("minimumLoanPeriod","0-D");
+  $d.getDroolsExchange().addToContext("recallLoanPeriod","7-D");
+    end
+
+  rule "2W_1M_6W_3MLoanRecallRequest4"
+  agenda-group "place-request"
+  when
+  $n: NoticeInfo()
+  $d : DroolsResponse()
+  $p: OlePatronDocument(getBorrowerTypeCode() in ("ILL"))
+  $i: OleDeliverRequestBo(getItemType() in ("LONG","ONE_WEEK"),
+  getItemLocation() in ("MAIN","EGHAM","DAGENHAM"),isClaimsReturnedFlag(),
+  getRequestTypeCode() in ("Hold/Hold Request"))
+
+  then
+  $d.setRuleMatched(true);
+  $d.addErrorMessage("Item has been claimed as returned. So item is temporarily unavailable for circulation.");
+  $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+
+   end
 
