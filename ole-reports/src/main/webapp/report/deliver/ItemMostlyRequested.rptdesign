@@ -46,6 +46,12 @@
                     <text-property name="heading">TITLE</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">CALL_NUMBER_PREFIX</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CALL_NUMBER_PREFIX</text-property>
+                    <text-property name="heading">CALL_NUMBER_PREFIX</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">BARCODE</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">BARCODE</text-property>
@@ -79,16 +85,21 @@
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">BARCODE</property>
+                        <property name="name">CALL_NUMBER_PREFIX</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">COPY_NUMBER</property>
+                        <property name="name">BARCODE</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">5</property>
+                        <property name="name">COPY_NUMBER</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
                         <property name="name">LOCATION</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -112,20 +123,27 @@
                 </structure>
                 <structure>
                     <property name="position">3</property>
+                    <property name="name">CALL_NUMBER_PREFIX</property>
+                    <property name="nativeName">CALL_NUMBER_PREFIX</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
                     <property name="name">BARCODE</property>
                     <property name="nativeName">BARCODE</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                     <property name="name">COPY_NUMBER</property>
                     <property name="nativeName">COPY_NUMBER</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                     <property name="name">LOCATION</property>
                     <property name="nativeName">LOCATION</property>
                     <property name="dataType">string</property>
@@ -135,6 +153,7 @@
             <xml-property name="queryText"><![CDATA[SELECT
 ODI.CALL_NUMBER,
 ODBI.TITLE,
+ODI.CALL_NUMBER_PREFIX,
 ODI.BARCODE,
 ODI.COPY_NUMBER,
 ODI.LOCATION
@@ -286,10 +305,18 @@ COUNT(ODR.ITM_ID) > 3;]]></xml-property>
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
+                <structure>
+                    <property name="name">CALL_NUMBER_PREFIX</property>
+                    <text-property name="displayName">CALL_NUMBER_PREFIX</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER_PREFIX"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <column id="228"/>
             <column id="229"/>
             <column id="230"/>
+            <column id="250"/>
             <column id="231"/>
             <column id="232"/>
             <header>
@@ -310,6 +337,12 @@ COUNT(ODR.ITM_ID) > 3;]]></xml-property>
                         <property name="style">NewStyle</property>
                         <label id="235">
                             <text-property name="text">Call Number</text-property>
+                        </label>
+                    </cell>
+                    <cell id="248">
+                        <property name="style">NewStyle</property>
+                        <label id="251">
+                            <text-property name="text">Call Number Prefix</text-property>
                         </label>
                     </cell>
                     <cell id="214">
@@ -347,6 +380,12 @@ COUNT(ODR.ITM_ID) > 3;]]></xml-property>
                         <data id="240">
                             <property name="textAlign">center</property>
                             <property name="resultSetColumn">Call Number</property>
+                        </data>
+                    </cell>
+                    <cell id="249">
+                        <property name="style">NewStyle</property>
+                        <data id="252">
+                            <property name="resultSetColumn">CALL_NUMBER_PREFIX</property>
                         </data>
                     </cell>
                     <cell id="220">

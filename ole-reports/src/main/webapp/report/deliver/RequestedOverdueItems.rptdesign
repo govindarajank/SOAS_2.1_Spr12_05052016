@@ -79,6 +79,12 @@
                     <text-property name="heading">BARCODE</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">CALL_NUMBER_PREFIX</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CALL_NUMBER_PREFIX</text-property>
+                    <text-property name="heading">CALL_NUMBER_PREFIX</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">LOAN_PTRN_NAME</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">LOAN_PTRN_NAME</text-property>
@@ -142,41 +148,46 @@
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">LOAN_PTRN_NAME</property>
+                        <property name="name">CALL_NUMBER_PREFIX</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">LOAN_PTRN_BARCD</property>
+                        <property name="name">LOAN_PTRN_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">5</property>
-                        <property name="name">LOAN_PTRN_EMAIL</property>
+                        <property name="name">LOAN_PTRN_BARCD</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">6</property>
-                        <property name="name">CALL_NUMBER</property>
+                        <property name="name">LOAN_PTRN_EMAIL</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">7</property>
-                        <property name="name">REQUEST_TYPE</property>
+                        <property name="name">CALL_NUMBER</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">8</property>
-                        <property name="name">RQST_PTRN_NAME</property>
+                        <property name="name">REQUEST_TYPE</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">9</property>
-                        <property name="name">RQST_PTRN_BARCD</property>
+                        <property name="name">RQST_PTRN_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">10</property>
+                        <property name="name">RQST_PTRN_BARCD</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
                         <property name="name">RQST_PTRN_EMAIL</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -201,55 +212,62 @@
                 </structure>
                 <structure>
                     <property name="position">3</property>
+                    <property name="name">CALL_NUMBER_PREFIX</property>
+                    <property name="nativeName">CALL_NUMBER_PREFIX</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
                     <property name="name">LOAN_PTRN_NAME</property>
                     <property name="nativeName">LOAN_PTRN_NAME</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                     <property name="name">LOAN_PTRN_BARCD</property>
                     <property name="nativeName">LOAN_PTRN_BARCD</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                     <property name="name">LOAN_PTRN_EMAIL</property>
                     <property name="nativeName">LOAN_PTRN_EMAIL</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">7</property>
                     <property name="name">CALL_NUMBER</property>
                     <property name="nativeName">CALL_NUMBER</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">8</property>
                     <property name="name">REQUEST_TYPE</property>
                     <property name="nativeName">REQUEST_TYPE</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">RQST_PTRN_NAME</property>
                     <property name="nativeName">RQST_PTRN_NAME</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">10</property>
                     <property name="name">RQST_PTRN_BARCD</property>
                     <property name="nativeName">RQST_PTRN_BARCD</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">11</property>
                     <property name="name">RQST_PTRN_EMAIL</property>
                     <property name="nativeName">RQST_PTRN_EMAIL</property>
                     <property name="dataType">string</property>
@@ -259,6 +277,7 @@
             <xml-property name="queryText"><![CDATA[SELECT 
 	B.TITLE,
 	IT.BARCODE,
+	IT.CALL_NUMBER_PREFIX,
 	(SELECT CONCAT(N.FIRST_NM," ",N.LAST_NM) FROM KRIM_ENTITY_NM_T N WHERE N.ENTITY_ID=L.OLE_PTRN_ID GROUP BY N.ENTITY_ID)AS LOAN_PTRN_NAME,
 	(SELECT P.BARCODE FROM OLE_PTRN_T P WHERE P.OLE_PTRN_ID=L.OLE_PTRN_ID GROUP BY P.OLE_PTRN_ID)AS LOAN_PTRN_BARCD,	
 	(SELECT E.EMAIL_ADDR FROM KRIM_ENTITY_EMAIL_T E WHERE E.ENTITY_ID=L.OLE_PTRN_ID GROUP BY E.ENTITY_ID)AS LOAN_PTRN_EMAIL,	
@@ -550,10 +569,18 @@ GROUP BY
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
+                <structure>
+                    <property name="name">CALL_NUMBER_PREFIX</property>
+                    <text-property name="displayName">CALL_NUMBER_PREFIX</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER_PREFIX"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <column id="96"/>
             <column id="97"/>
             <column id="98"/>
+            <column id="130"/>
             <column id="99"/>
             <column id="100"/>
             <column id="101"/>
@@ -579,6 +606,12 @@ GROUP BY
                         <property name="style">NewStyle</property>
                         <label id="108">
                             <text-property name="text">Patron Email</text-property>
+                        </label>
+                    </cell>
+                    <cell id="128">
+                        <property name="style">NewStyle</property>
+                        <label id="131">
+                            <text-property name="text">Call Number Prefix</text-property>
                         </label>
                     </cell>
                     <cell id="67">
@@ -643,6 +676,12 @@ GROUP BY
                         <property name="style">NewStyle</property>
                         <data id="119">
                             <property name="resultSetColumn">LOAN PTRN EMAIL</property>
+                        </data>
+                    </cell>
+                    <cell id="129">
+                        <property name="style">NewStyle</property>
+                        <data id="132">
+                            <property name="resultSetColumn">CALL_NUMBER_PREFIX</property>
                         </data>
                     </cell>
                     <cell id="78">

@@ -48,6 +48,12 @@
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="8">
             <list-property name="columnHints">
                 <structure>
+                    <property name="columnName">CALL_NUMBER_PREFIX</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CALL_NUMBER_PREFIX</text-property>
+                    <text-property name="heading">CALL_NUMBER_PREFIX</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">CALL_NUMBER</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">CALL_NUMBER</text-property>
@@ -113,43 +119,48 @@
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">CALL_NUMBER</property>
+                        <property name="name">CALL_NUMBER_PREFIX</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">TITLE</property>
+                        <property name="name">CALL_NUMBER</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">BARCODE</property>
+                        <property name="name">TITLE</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">COPY_NUMBER</property>
+                        <property name="name">BARCODE</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">5</property>
-                        <property name="name">LOCATION</property>
+                        <property name="name">COPY_NUMBER</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">6</property>
-                        <property name="name">CLAIMS_RETURNED_NOTE</property>
+                        <property name="name">LOCATION</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">7</property>
+                        <property name="name">CLAIMS_RETURNED_NOTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
                         <property name="name">(SELECT BARCODE FROM OLE_PTRN_T 
  WHERE OLE_PTRN_ID = ODI.CURRENT_BORROWER 
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">9</property>
                         <property name="name">(SELECT CONCAT(FIRST_NM, " ", LAST_NM) FROM KRIM_ENTITY_NM_T 
  WHERE ENTITY_ID = ODI.CURRENT_BORROWER 
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
@@ -170,48 +181,55 @@
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
+                    <property name="name">CALL_NUMBER_PREFIX</property>
+                    <property name="nativeName">CALL_NUMBER_PREFIX</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
                     <property name="name">CALL_NUMBER</property>
                     <property name="nativeName">CALL_NUMBER</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                     <property name="name">TITLE</property>
                     <property name="nativeName">TITLE</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                     <property name="name">BARCODE</property>
                     <property name="nativeName">BARCODE</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                     <property name="name">COPY_NUMBER</property>
                     <property name="nativeName">COPY_NUMBER</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                     <property name="name">LOCATION</property>
                     <property name="nativeName">LOCATION</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">7</property>
                     <property name="name">CLAIMS_RETURNED_NOTE</property>
                     <property name="nativeName">CLAIMS_RETURNED_NOTE</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">8</property>
                     <property name="name">(SELECT BARCODE FROM OLE_PTRN_T 
  WHERE OLE_PTRN_ID = ODI.CURRENT_BORROWER 
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
@@ -222,7 +240,7 @@
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">(SELECT CONCAT(FIRST_NM, " ", LAST_NM) FROM KRIM_ENTITY_NM_T 
  WHERE ENTITY_ID = ODI.CURRENT_BORROWER 
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
@@ -234,6 +252,7 @@
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[SELECT
+ODI.CALL_NUMBER_PREFIX,
 ODI.CALL_NUMBER,
 ODBI.TITLE,
 ODI.BARCODE,
@@ -1511,7 +1530,15 @@ ODI.CLAIMS_RETURNED='Y'
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
+                <structure>
+                    <property name="name">CALL_NUMBER_PREFIX</property>
+                    <text-property name="displayName">CALL_NUMBER_PREFIX</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER_PREFIX"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
+            <column id="187"/>
             <column id="149"/>
             <column id="150"/>
             <column id="151"/>
@@ -1522,6 +1549,12 @@ ODI.CLAIMS_RETURNED='Y'
             <column id="154"/>
             <header>
                 <row id="121">
+                    <cell id="185">
+                        <property name="style">NewStyle1</property>
+                        <label id="188">
+                            <text-property name="text">Call Number Prefix</text-property>
+                        </label>
+                    </cell>
                     <cell id="122">
                         <property name="style">NewStyle1</property>
                         <label id="155">
@@ -1579,6 +1612,12 @@ ODI.CLAIMS_RETURNED='Y'
             </header>
             <detail>
                 <row id="128">
+                    <cell id="186">
+                        <property name="style">NewStyle1</property>
+                        <data id="189">
+                            <property name="resultSetColumn">CALL_NUMBER_PREFIX</property>
+                        </data>
+                    </cell>
                     <cell id="129">
                         <property name="style">NewStyle1</property>
                         <data id="167">
