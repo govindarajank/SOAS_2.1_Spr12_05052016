@@ -115,6 +115,12 @@
                     <text-property name="heading">BARCODE</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">CALL_NUMBER_PREFIX</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CALL_NUMBER_PREFIX</text-property>
+                    <text-property name="heading">CALL_NUMBER_PREFIX</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">CALL_NUMBER</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">CALL_NUMBER</text-property>
@@ -190,45 +196,50 @@
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">CALL_NUMBER</property>
+                        <property name="name">CALL_NUMBER_PREFIX</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">LOCATION</property>
+                        <property name="name">CALL_NUMBER</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">5</property>
-                        <property name="name">ITEM_AVAIL_STAT_CD</property>
+                        <property name="name">LOCATION</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">6</property>
+                        <property name="name">ITEM_AVAIL_STAT_CD</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
                         <property name="name">DUE_DATE_TIME</property>
                         <property name="dataType">date-time</property>
                     </structure>
                     <structure>
-                        <property name="position">7</property>
+                        <property name="position">8</property>
                         <property name="name">(SELECT L.CRTE_DT_TIME FROM OLE_DLVR_LOAN_T L WHERE IT.BARCODE=L.ITM_ID)</property>
                         <property name="dataType">date-time</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">9</property>
                         <property name="name">(SELECT BARCODE FROM OLE_PTRN_T
  WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
+                        <property name="position">10</property>
                         <property name="name">(SELECT CONCAT(FIRST_NM, " ", LAST_NM) FROM KRIM_ENTITY_NM_T
  WHERE ENTITY_ID = IT.CURRENT_BORROWER
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">10</property>
+                        <property name="position">11</property>
                         <property name="name">OPTR_CRTE_ID</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -276,41 +287,48 @@ if(params["Item Title"].value !=null  &amp;&amp; params["Call Number"].value!=nu
                 </structure>
                 <structure>
                     <property name="position">3</property>
+                    <property name="name">CALL_NUMBER_PREFIX</property>
+                    <property name="nativeName">CALL_NUMBER_PREFIX</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
                     <property name="name">CALL_NUMBER</property>
                     <property name="nativeName">CALL_NUMBER</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                     <property name="name">LOCATION</property>
                     <property name="nativeName">LOCATION</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                     <property name="name">ITEM_AVAIL_STAT_CD</property>
                     <property name="nativeName">ITEM_AVAIL_STAT_CD</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">7</property>
                     <property name="name">DUE_DATE_TIME</property>
                     <property name="nativeName">DUE_DATE_TIME</property>
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">8</property>
                     <property name="name">(SELECT L.CRTE_DT_TIME FROM OLE_DLVR_LOAN_T L WHERE IT.BARCODE=L.ITM_ID)</property>
                     <property name="nativeName">(SELECT L.CRTE_DT_TIME FROM OLE_DLVR_LOAN_T L WHERE IT.BARCODE=L.ITM_ID)</property>
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">(SELECT BARCODE FROM OLE_PTRN_T
  WHERE OLE_PTRN_ID = IT.CURRENT_BORROWER
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
@@ -321,7 +339,7 @@ if(params["Item Title"].value !=null  &amp;&amp; params["Call Number"].value!=nu
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">10</property>
                     <property name="name">(SELECT CONCAT(FIRST_NM, " ", LAST_NM) FROM KRIM_ENTITY_NM_T
  WHERE ENTITY_ID = IT.CURRENT_BORROWER
  AND (CURRENT_BORROWER != '' OR CURRENT_BORROWER IS NOT NULL))</property>
@@ -332,7 +350,7 @@ if(params["Item Title"].value !=null  &amp;&amp; params["Call Number"].value!=nu
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">11</property>
                     <property name="name">OPTR_CRTE_ID</property>
                     <property name="nativeName">OPTR_CRTE_ID</property>
                     <property name="dataType">string</property>
@@ -342,6 +360,7 @@ if(params["Item Title"].value !=null  &amp;&amp; params["Call Number"].value!=nu
             <xml-property name="queryText"><![CDATA[select
 B.TITLE,
 IT.BARCODE,
+IT.CALL_NUMBER_PREFIX,
 IT.CALL_NUMBER,
 IT.LOCATION,
 ITS.ITEM_AVAIL_STAT_CD,
@@ -386,6 +405,12 @@ IT.ITEM_STATUS_ID='17']]></xml-property>
                     <text-property name="heading">BARCODE</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">CALL_NUMBER_PREFIX</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CALL_NUMBER_PREFIX</text-property>
+                    <text-property name="heading">CALL_NUMBER_PREFIX</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">CALL_NUMBER</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">CALL_NUMBER</text-property>
@@ -410,7 +435,7 @@ IT.ITEM_STATUS_ID='17']]></xml-property>
                     <text-property name="heading">CONCAT(NM.FIRST_NM ," ", NM.LAST_NM)</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">BARCODE_7</property>
+                    <property name="columnName">BARCODE_8</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">BARCODE</text-property>
                     <text-property name="heading">BARCODE</text-property>
@@ -455,52 +480,57 @@ IT.ITEM_STATUS_ID='17']]></xml-property>
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">CALL_NUMBER</property>
+                        <property name="name">CALL_NUMBER_PREFIX</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">LOCATION</property>
+                        <property name="name">CALL_NUMBER</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">5</property>
-                        <property name="name">ITEM_AVAIL_STAT_CD</property>
+                        <property name="name">LOCATION</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">6</property>
-                        <property name="name">CONCAT(NM.FIRST_NM ," ", NM.LAST_NM)</property>
+                        <property name="name">ITEM_AVAIL_STAT_CD</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">7</property>
-                        <property name="name">BARCODE_7</property>
+                        <property name="name">CONCAT(NM.FIRST_NM ," ", NM.LAST_NM)</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">8</property>
+                        <property name="name">BARCODE_8</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
                         <property name="name">CRTE_DT_TIME</property>
                         <property name="dataType">date-time</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
+                        <property name="position">10</property>
                         <property name="name">DUE_DT_TIME</property>
                         <property name="dataType">date-time</property>
                     </structure>
                     <structure>
-                        <property name="position">10</property>
+                        <property name="position">11</property>
                         <property name="name">CHECK_IN_DT_TIME</property>
                         <property name="dataType">date-time</property>
                     </structure>
                     <structure>
-                        <property name="position">11</property>
+                        <property name="position">12</property>
                         <property name="name">OPTR_CRTE_ID</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
             </structure>
-            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " AND IT.DATE_CREATED  BETWEEN '"+ params["Date Created From"].value +"' AND '"+ params["Date Created To"].value +"'";
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " AND ODCR.CRTE_DT_TIME  BETWEEN '"+ params["Date Created From"].value +"' AND '"+ params["Date Created To"].value +"'";
 if(params["Item Title"].value !=null  &amp;&amp; params["Call Number"].value!=null  &amp;&amp; params["Operator Id"].value !=null){
 	this.queryText = this.queryText + " AND B.TITLE  LIKE '"+ params["Item Title"].value+"%'";
 	this.queryText = this.queryText + " AND IT.CALL_NUMBER LIKE '"+ params["Call Number"].value+"%'";
@@ -544,62 +574,69 @@ this.queryText = this.queryText + " ORDER BY ODCR.CRTE_DT_TIME DESC";]]></method
                 </structure>
                 <structure>
                     <property name="position">3</property>
+                    <property name="name">CALL_NUMBER_PREFIX</property>
+                    <property name="nativeName">CALL_NUMBER_PREFIX</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
                     <property name="name">CALL_NUMBER</property>
                     <property name="nativeName">CALL_NUMBER</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                     <property name="name">LOCATION</property>
                     <property name="nativeName">LOCATION</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                     <property name="name">ITEM_AVAIL_STAT_CD</property>
                     <property name="nativeName">ITEM_AVAIL_STAT_CD</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">7</property>
                     <property name="name">CONCAT(NM.FIRST_NM ," ", NM.LAST_NM)</property>
                     <property name="nativeName">CONCAT(NM.FIRST_NM ," ", NM.LAST_NM)</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
-                    <property name="name">BARCODE_7</property>
+                    <property name="position">8</property>
+                    <property name="name">BARCODE_8</property>
                     <property name="nativeName">BARCODE</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">CRTE_DT_TIME</property>
                     <property name="nativeName">CRTE_DT_TIME</property>
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">10</property>
                     <property name="name">DUE_DT_TIME</property>
                     <property name="nativeName">DUE_DT_TIME</property>
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">11</property>
                     <property name="name">CHECK_IN_DT_TIME</property>
                     <property name="nativeName">CHECK_IN_DT_TIME</property>
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
                 <structure>
-                    <property name="position">11</property>
+                    <property name="position">12</property>
                     <property name="name">OPTR_CRTE_ID</property>
                     <property name="nativeName">OPTR_CRTE_ID</property>
                     <property name="dataType">string</property>
@@ -609,6 +646,7 @@ this.queryText = this.queryText + " ORDER BY ODCR.CRTE_DT_TIME DESC";]]></method
             <xml-property name="queryText"><![CDATA[SELECT
 B.TITLE,
 IT.BARCODE,
+IT.CALL_NUMBER_PREFIX,
 IT.CALL_NUMBER,
 IT.LOCATION,
 ITS.ITEM_AVAIL_STAT_CD,
@@ -1081,11 +1119,21 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
+                <structure>
+                    <property name="name">Call Number Prefix</property>
+                    <text-property name="displayName">Call Number Prefix</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER_PREFIX"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <column id="330">
                 <property name="style">NewStyle3</property>
             </column>
             <column id="331">
+                <property name="style">NewStyle3</property>
+            </column>
+            <column id="531">
                 <property name="style">NewStyle3</property>
             </column>
             <column id="332">
@@ -1124,6 +1172,12 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID
                         <property name="style">NewStyle</property>
                         <label id="440">
                             <text-property name="text">Barcode</text-property>
+                        </label>
+                    </cell>
+                    <cell id="529">
+                        <property name="style">NewStyle</property>
+                        <label id="532">
+                            <text-property name="text">Call Number Prefix</text-property>
                         </label>
                     </cell>
                     <cell id="303">
@@ -1188,6 +1242,12 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID
                         <property name="style">NewStyle</property>
                         <data id="476">
                             <property name="resultSetColumn">Item Barcode</property>
+                        </data>
+                    </cell>
+                    <cell id="530">
+                        <property name="style">NewStyle</property>
+                        <data id="533">
+                            <property name="resultSetColumn">Call Number Prefix</property>
                         </data>
                     </cell>
                     <cell id="313">
@@ -1300,12 +1360,6 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">BARCODE_7</property>
-                    <text-property name="displayName">BARCODE</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["BARCODE_7"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
                     <property name="name">CRTE_DT_TIME</property>
                     <text-property name="displayName">CRTE_DT_TIME</text-property>
                     <expression name="expression" type="javascript">dataSetRow["CRTE_DT_TIME"]</expression>
@@ -1366,13 +1420,6 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID
                     <property name="allowExport">true</property>
                 </structure>
                 <structure>
-                    <property name="name">Loand Ptrn Bcode</property>
-                    <text-property name="displayName">Loand Ptrn Bcode</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["BARCODE_7"]</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-                <structure>
                     <property name="name">Loan Created Dt</property>
                     <text-property name="displayName">Loan Created Dt</text-property>
                     <expression name="expression" type="javascript">dataSetRow["CRTE_DT_TIME"]</expression>
@@ -1400,11 +1447,21 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
+                <structure>
+                    <property name="name">Circulation Call Number Prefix</property>
+                    <text-property name="displayName">Circulation Call Number Prefix</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER_PREFIX"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <column id="427">
                 <property name="style">NewStyle5</property>
             </column>
             <column id="428">
+                <property name="style">NewStyle5</property>
+            </column>
+            <column id="536">
                 <property name="style">NewStyle5</property>
             </column>
             <column id="429">
@@ -1446,6 +1503,12 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID
                         <property name="style">NewStyle</property>
                         <label id="460">
                             <text-property name="text">Circulation Item Barcode</text-property>
+                        </label>
+                    </cell>
+                    <cell id="534">
+                        <property name="style">NewStyle</property>
+                        <label id="537">
+                            <text-property name="text">Circulation call Number Prefix</text-property>
                         </label>
                     </cell>
                     <cell id="397">
@@ -1516,6 +1579,12 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID
                         <property name="style">NewStyle</property>
                         <data id="497">
                             <property name="resultSetColumn">Circ Itm Bcode</property>
+                        </data>
+                    </cell>
+                    <cell id="535">
+                        <property name="style">NewStyle</property>
+                        <data id="538">
+                            <property name="resultSetColumn">Circulation Call Number Prefix</property>
                         </data>
                     </cell>
                     <cell id="408">
