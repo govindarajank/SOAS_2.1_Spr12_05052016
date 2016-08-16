@@ -113,7 +113,7 @@
         <ul>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/FastAdd.rptdesign"%>" target="_blank">FastAdd</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ItemCirculationRecord.rptdesign"%>" target="_blank">Item Circulation History</a></li>
-            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CirculationHistoryItems.rptdesign"%>" target="_blank">Circulation History Items</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CirculationHistoryItems.rptdesign"%>" target="_blank">Circulation History List</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/PatronCirculationHistory.rptdesign"%>" target="_blank">Patron Circulation History</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ClaimsReturn.rptdesign"%>" target="_blank">Claims Returned</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostOrMissingItems.rptdesign"%>" target="_blank">Lost/Missing Items</a></li>
