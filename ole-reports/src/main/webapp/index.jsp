@@ -111,6 +111,7 @@
         <ul class="first">
         <h5><u>History</u></h5>
         <ul>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/PatronList.rptdesign"%>" target="_blank">Patron List</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/FastAdd.rptdesign"%>" target="_blank">FastAdd</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ItemCirculationRecord.rptdesign"%>" target="_blank">Item Circulation History</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CirculationHistoryItems.rptdesign"%>" target="_blank">Circulation History List</a></li>
