@@ -174,12 +174,20 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
         parameterMap.put("DocFormat", "Email");
         parameterMap.put("noticeType", noticeType);
         parameterMap.put("noticeContent", noticeContent);
-        String patronId = (new CircUtilController().getItemRecordByBarcode(oleDeliverRequestBos.get(0).getItemId())).getCurrentBorrower();
-        Map<String, String> parameterMap1 = new HashMap<>();
-        parameterMap1.put("olePatronId", patronId);
-        Long startingTime = System.currentTimeMillis();
-        OlePatronDocument olePatron = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, parameterMap1);
-        parameterMap.put("patronBarcode", olePatron.getBarcode());
+        String patronId;
+        if(noticeType.equalsIgnoreCase("RecallNotice")){
+            patronId = (new CircUtilController().getItemRecordByBarcode(oleDeliverRequestBos.get(0).getItemId())).getCurrentBorrower();
+            Map<String, String> parameterMap1 = new HashMap<>();
+            parameterMap1.put("olePatronId", patronId);
+            Long startingTime = System.currentTimeMillis();
+            OlePatronDocument olePatron = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, parameterMap1);
+            parameterMap.put("patronBarcode", olePatron.getBarcode());
+        }
+        else{
+            String patronBarcode = oleDeliverRequestBos.get(0).getOlePatron().getBarcode();
+            patronId = oleDeliverRequestBos.get(0).getOlePatron().getOlePatronId();
+            parameterMap.put("patronBarcode", patronBarcode);
+        }
         Date dateSent = new Date();
         parameterMap.put("dateSent", dateSent);
         parameterMap.put("uniqueId", patronId+ dateSent.getTime());
