@@ -22,8 +22,45 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="Expiration Date" id="11">
+        <scalar-parameter name="Active Indicator" id="80">
             <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">Y</value>
+            </simple-property-list>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">Y</property>
+                    <property name="label">Yes</property>
+                </structure>
+                <structure>
+                    <property name="value">N</property>
+                    <property name="label">No</property>
+                </structure>
+            </list-property>
+            <property name="paramType">simple</property>
+            <property name="controlType">radio-button</property>
+            <property name="fixedOrder">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="Expiration Date From" id="81">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="Expiration Date To" id="82">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
             <property name="dataType">date</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
@@ -240,9 +277,22 @@ FROM
                     </structure>
                 </list-property>
             </structure>
-            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " AND B.DLVR_BORR_TYP_NM ='"+ params["Patron Type"].value +"'"
-this.queryText = this.queryText + " AND P.EXPIRATION_DATE ='"+ params["Expiration Date"].value +"'"
-this.queryText = this.queryText + " ORDER BY P.OLE_PTRN_ID";
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " AND B.DLVR_BORR_TYP_NM = '"+ params["Patron Type"].value +"'";
+
+this.queryText = this.queryText + " AND P.ACTV_IND = '"+ params["Active Indicator"].value +"'"
+
+if(params["Expiration Date From"].value!=null &amp;&amp; params["Expiration Date To"].value!=null)
+	this.queryText = this.queryText + " AND P.EXPIRATION_DATE  BETWEEN '"+ params["Expiration Date From"].value +"' AND '"+params["Expiration Date To"].value+"'";
+else if(params["Expiration Date From"].value!=null &amp;&amp;   params["Expiration Date To"].value==null)
+	this.queryText = this.queryText + " AND P.EXPIRATION_DATE >= '"+ params["Expiration Date From"].value +"'";
+else if(params["Expiration Date From"].value==null &amp;&amp; params["Expiration Date To"].value!=null)
+	this.queryText = this.queryText + " AND P.EXPIRATION_DATE <= '"+ params["Expiration Date To"].value +"'";
+else
+	this.queryText = this.queryText + "";
+
+
+this.queryText = this.queryText + " ORDER BY P.EXPIRATION_DATE";
+
 
 
 ]]></method>
