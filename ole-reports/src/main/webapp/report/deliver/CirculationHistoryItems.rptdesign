@@ -40,6 +40,7 @@
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
+            <method name="getDefaultValueList"><![CDATA[params["Item Title"].value=null;]]></method>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -55,6 +56,7 @@
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
+            <method name="getDefaultValueList"><![CDATA[params["Call Number"].value=null;]]></method>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -70,6 +72,7 @@
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
+            <method name="getDefaultValueList"><![CDATA[params["Operator Id"].value=null;]]></method>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -1451,6 +1454,13 @@ IT.ITEM_STATUS_ID = ITS.ITEM_AVAIL_STAT_ID
                     <property name="name">Circulation Call Number Prefix</property>
                     <text-property name="displayName">Circulation Call Number Prefix</text-property>
                     <expression name="expression" type="javascript">dataSetRow["CALL_NUMBER_PREFIX"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Loand Ptrn Bcode</property>
+                    <text-property name="displayName">Loand Ptrn Bcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BARCODE_8"]</expression>
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
