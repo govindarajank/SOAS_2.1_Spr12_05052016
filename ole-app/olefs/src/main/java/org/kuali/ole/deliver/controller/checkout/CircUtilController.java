@@ -542,14 +542,14 @@ public class CircUtilController extends RuleExecutor {
                 }
             }
         }
-        if (null == itemFineRate.getFineRate() || null == itemFineRate.getMaxFine() || null == itemFineRate.getInterval()) {
+        if (null == itemFineRate.getFineRate() || null == itemFineRate.getInterval()) {
             LOG.error("No fine rule found");
         } else {
             if (null != loanDocument.getReplacementBill() && loanDocument.getReplacementBill().compareTo(BigDecimal.ZERO) > 0) {
                 billPayment = generateReplacementBill(loanDocument, dueDate);
             } else {
                 Double overdueFine = new FineDateTimeUtil().calculateOverdueFine(selectedCirculationDesk, dueDate, customDueDateMap, itemFineRate);
-                overdueFine = overdueFine >= itemFineRate.getMaxFine() ? itemFineRate.getMaxFine() : overdueFine;
+                //overdueFine = overdueFine >= itemFineRate.getMaxFine() ? itemFineRate.getMaxFine() : overdueFine;
                 if (null != overdueFine && overdueFine > 0) {
                     billPayment = generateOverdueBill(loanDocument, overdueFine, dueDate);
                 }
