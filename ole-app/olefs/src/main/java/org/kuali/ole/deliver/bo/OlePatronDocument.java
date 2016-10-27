@@ -1721,6 +1721,10 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         return businessObjectService;
     }
 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
     public boolean isLostPatron() {
         LOG.debug("Inside the checkLostPatronBarcode method");
         Map barMap = new HashMap();
@@ -2064,10 +2068,12 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         String borrowerType = null;
         if(itemBarcode!=null) {
             ItemRecord itemRecord = ItemInfoUtil.getInstance().getItemRecordByBarcode(itemBarcode);
-            Map<String,String> olePatronMap = new HashMap<>();
-            olePatronMap.put("olePatronId",itemRecord.getCurrentBorrower());
-            OlePatronDocument oleLoanPatronDocument = getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, olePatronMap);
-            borrowerType = oleLoanPatronDocument.getBorrowerTypeCode();
+            if(itemRecord!=null && itemRecord.getItemStatusRecord().getCode().equalsIgnoreCase("LOANED")) {
+                Map<String, String> olePatronMap = new HashMap<>();
+                olePatronMap.put("olePatronId", itemRecord.getCurrentBorrower());
+                OlePatronDocument oleLoanPatronDocument = getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, olePatronMap);
+                borrowerType = oleLoanPatronDocument.getBorrowerTypeCode();
+            }
         }
         return borrowerType;
     }
