@@ -156,6 +156,18 @@
                     <text-property name="displayName">HOLD_EXP_DATE</text-property>
                     <text-property name="heading">HOLD_EXP_DATE</text-property>
                 </structure>
+                <structure>
+                    <property name="columnName">DUE_DATE_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">DUE_DATE_TIME</text-property>
+                    <text-property name="heading">DUE_DATE_TIME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CRTE_DT_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CRTE_DT_TIME</text-property>
+                    <text-property name="heading">CRTE_DT_TIME</text-property>
+                </structure>
             </list-property>
             <list-property name="parameters"/>
             <structure name="cachedMetaData">
@@ -219,6 +231,16 @@
                         <property name="position">12</property>
                         <property name="name">HOLD_EXP_DATE</property>
                         <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">DUE_DATE_TIME</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">CRTE_DT_TIME</property>
+                        <property name="dataType">date-time</property>
                     </structure>
                 </list-property>
             </structure>
@@ -326,6 +348,20 @@ this.queryText=this.queryText+ " ORDER BY R.HOLD_EXP_DATE DESC, R.ITM_ID ASC,R.P
                     <property name="dataType">date</property>
                     <property name="nativeDataType">91</property>
                 </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">DUE_DATE_TIME</property>
+                    <property name="nativeName">DUE_DATE_TIME</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">CRTE_DT_TIME</property>
+                    <property name="nativeName">CRTE_DT_TIME</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[SELECT 
 N.FIRST_NM,
@@ -339,8 +375,10 @@ B.AUTHOR,
 I.CALL_NUMBER,
 I.CALL_NUMBER_PREFIX,
 ST.ITEM_AVAIL_STAT_CD,
-R.HOLD_EXP_DATE
-FROM 
+R.HOLD_EXP_DATE,
+I.DUE_DATE_TIME,
+R.CRTE_DT_TIME
+FROM
 OLE_DLVR_RQST_T R 
 JOIN KRIM_ENTITY_NM_T N ON R.OLE_PTRN_ID = N.ENTITY_ID
 JOIN OLE_DS_ITEM_T I ON R.ITM_ID = I.BARCODE
@@ -661,6 +699,20 @@ WHERE
                     <property name="dataType">date-time</property>
                     <property name="allowExport">true</property>
                 </structure>
+                <structure>
+                    <property name="name">Request_Create_date</property>
+                    <text-property name="displayName">Request_Create_date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CRTE_DT_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Due Date</property>
+                    <text-property name="displayName">Due Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DUE_DATE_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <column id="45"/>
             <column id="46"/>
@@ -674,6 +726,8 @@ WHERE
             <column id="80"/>
             <column id="85"/>
             <column id="54"/>
+            <column id="103"/>
+            <column id="106"/>
             <header>
                 <row id="12">
                     <cell id="13">
@@ -830,6 +884,32 @@ WHERE
                         <property name="borderTopWidth">thin</property>
                         <label id="88">
                             <text-property name="text">Hold Expiration Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="101">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="107">
+                            <text-property name="text">Request create dt</text-property>
+                        </label>
+                    </cell>
+                    <cell id="104">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="108">
+                            <text-property name="text">Due Date</text-property>
                         </label>
                     </cell>
                 </row>
@@ -990,6 +1070,32 @@ WHERE
                         <property name="borderTopWidth">thin</property>
                         <data id="89">
                             <property name="resultSetColumn">Hold Exp Date</property>
+                        </data>
+                    </cell>
+                    <cell id="102">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="109">
+                            <property name="resultSetColumn">Request_Create_date</property>
+                        </data>
+                    </cell>
+                    <cell id="105">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="110">
+                            <property name="resultSetColumn">Due Date</property>
                         </data>
                     </cell>
                 </row>
